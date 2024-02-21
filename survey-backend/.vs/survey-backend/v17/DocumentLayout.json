@@ -1,0 +1,36 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\onurb\\OneDrive\\Desktop\\survey-app\\survey-backend\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{C84E89DD-DB9C-472C-9ECA-51955153D689}|survey-backend.webapi\\survey-backend.webapi.csproj|c:\\users\\onurb\\onedrive\\desktop\\survey-app\\survey-backend\\survey-backend.webapi\\survey-backend.webapi.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{C84E89DD-DB9C-472C-9ECA-51955153D689}|survey-backend.webapi\\survey-backend.webapi.csproj|solutionrelative:survey-backend.webapi\\survey-backend.webapi.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "survey-backend.webapi",
+              "DocumentMoniker": "C:\\Users\\onurb\\OneDrive\\Desktop\\survey-app\\survey-backend\\survey-backend.webapi\\survey-backend.webapi.csproj",
+              "RelativeDocumentMoniker": "survey-backend.webapi\\survey-backend.webapi.csproj",
+              "ToolTip": "C:\\Users\\onurb\\OneDrive\\Desktop\\survey-app\\survey-backend\\survey-backend.webapi\\survey-backend.webapi.csproj",
+              "RelativeToolTip": "survey-backend.webapi\\survey-backend.webapi.csproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-02-21T02:20:38.034Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

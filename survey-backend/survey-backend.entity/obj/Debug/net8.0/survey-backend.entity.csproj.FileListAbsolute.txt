@@ -1,0 +1,12 @@
+C:\Users\onurb\OneDrive\Desktop\survey-app\survey-backend\survey-backend.entity\bin\Debug\net8.0\survey-backend.entity.deps.json
+C:\Users\onurb\OneDrive\Desktop\survey-app\survey-backend\survey-backend.entity\bin\Debug\net8.0\survey-backend.entity.dll
+C:\Users\onurb\OneDrive\Desktop\survey-app\survey-backend\survey-backend.entity\bin\Debug\net8.0\survey-backend.entity.pdb
+C:\Users\onurb\OneDrive\Desktop\survey-app\survey-backend\survey-backend.entity\obj\Debug\net8.0\survey-backend.entity.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\onurb\OneDrive\Desktop\survey-app\survey-backend\survey-backend.entity\obj\Debug\net8.0\survey-backend.entity.AssemblyInfoInputs.cache
+C:\Users\onurb\OneDrive\Desktop\survey-app\survey-backend\survey-backend.entity\obj\Debug\net8.0\survey-backend.entity.AssemblyInfo.cs
+C:\Users\onurb\OneDrive\Desktop\survey-app\survey-backend\survey-backend.entity\obj\Debug\net8.0\survey-backend.entity.csproj.CoreCompileInputs.cache
+C:\Users\onurb\OneDrive\Desktop\survey-app\survey-backend\survey-backend.entity\obj\Debug\net8.0\survey-backend.entity.sourcelink.json
+C:\Users\onurb\OneDrive\Desktop\survey-app\survey-backend\survey-backend.entity\obj\Debug\net8.0\survey-backend.entity.dll
+C:\Users\onurb\OneDrive\Desktop\survey-app\survey-backend\survey-backend.entity\obj\Debug\net8.0\refint\survey-backend.entity.dll
+C:\Users\onurb\OneDrive\Desktop\survey-app\survey-backend\survey-backend.entity\obj\Debug\net8.0\survey-backend.entity.pdb
+C:\Users\onurb\OneDrive\Desktop\survey-app\survey-backend\survey-backend.entity\obj\Debug\net8.0\ref\survey-backend.entity.dll

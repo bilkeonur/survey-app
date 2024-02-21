@@ -1,0 +1,6 @@
+@survey_backend.webapi_HostAddress = http://localhost:5216
+
+GET {{survey_backend.webapi_HostAddress}}/api/
+Accept: application/json
+
+###

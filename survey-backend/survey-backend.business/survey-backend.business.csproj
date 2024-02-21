@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>survey_backend.business</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\survey-backend.entity\survey-backend.entity.csproj" />
+    <ProjectReference Include="..\survey-backend.data\survey-backend.data.csproj" />
+  </ItemGroup>
+
+</Project>

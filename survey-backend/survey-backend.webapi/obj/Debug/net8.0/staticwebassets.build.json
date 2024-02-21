@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "7j/prPEXcDWjdUykyRZY4jpBMXXnr8tEKuMmWOAB55A=",
+  "Source": "survey-backend.webapi",
+  "BasePath": "_content/survey-backend.webapi",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
