@@ -25,6 +25,9 @@ namespace survey_backend.data.Concrete.EfCore
         private SurveyRepository _surveyRepository;
         public ISurveyRepository Surveys => _surveyRepository ?? new SurveyRepository(_context);
 
+        private OptionRepository _optionRepository;
+        public IOptionRepository Options => _optionRepository ?? new OptionRepository(_context);
+
         public void Dispose()
         {
             _context.Dispose();

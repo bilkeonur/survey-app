@@ -3,8 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\onurb\\OneDrive\\Desktop\\survey-app\\survey-backend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C84E89DD-DB9C-472C-9ECA-51955153D689}|survey-backend.webapi\\survey-backend.webapi.csproj|c:\\users\\onurb\\onedrive\\desktop\\survey-app\\survey-backend\\survey-backend.webapi\\survey-backend.webapi.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
-      "RelativeMoniker": "D:0:0:{C84E89DD-DB9C-472C-9ECA-51955153D689}|survey-backend.webapi\\survey-backend.webapi.csproj|solutionrelative:survey-backend.webapi\\survey-backend.webapi.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+      "AbsoluteMoniker": "D:0:0:{AF4ADA59-6C17-4A44-96F2-327654A554F2}|survey-backend.business\\survey-backend.business.csproj|c:\\users\\onurb\\onedrive\\desktop\\survey-app\\survey-backend\\survey-backend.business\\concrete\\optionmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AF4ADA59-6C17-4A44-96F2-327654A554F2}|survey-backend.business\\survey-backend.business.csproj|solutionrelative:survey-backend.business\\concrete\\optionmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AF4ADA59-6C17-4A44-96F2-327654A554F2}|survey-backend.business\\survey-backend.business.csproj|c:\\users\\onurb\\onedrive\\desktop\\survey-app\\survey-backend\\survey-backend.business\\concrete\\questionmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AF4ADA59-6C17-4A44-96F2-327654A554F2}|survey-backend.business\\survey-backend.business.csproj|solutionrelative:survey-backend.business\\concrete\\questionmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -19,13 +23,27 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "survey-backend.webapi",
-              "DocumentMoniker": "C:\\Users\\onurb\\OneDrive\\Desktop\\survey-app\\survey-backend\\survey-backend.webapi\\survey-backend.webapi.csproj",
-              "RelativeDocumentMoniker": "survey-backend.webapi\\survey-backend.webapi.csproj",
-              "ToolTip": "C:\\Users\\onurb\\OneDrive\\Desktop\\survey-app\\survey-backend\\survey-backend.webapi\\survey-backend.webapi.csproj",
-              "RelativeToolTip": "survey-backend.webapi\\survey-backend.webapi.csproj",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2024-02-21T02:20:38.034Z",
+              "Title": "OptionManager.cs",
+              "DocumentMoniker": "C:\\Users\\onurb\\OneDrive\\Desktop\\survey-app\\survey-backend\\survey-backend.business\\Concrete\\OptionManager.cs",
+              "RelativeDocumentMoniker": "survey-backend.business\\Concrete\\OptionManager.cs",
+              "ToolTip": "C:\\Users\\onurb\\OneDrive\\Desktop\\survey-app\\survey-backend\\survey-backend.business\\Concrete\\OptionManager.cs",
+              "RelativeToolTip": "survey-backend.business\\Concrete\\OptionManager.cs",
+              "ViewState": "AQIAABkAAAAAAAAAAAAkwAYAAAAgAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-21T23:08:33.029Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "QuestionManager.cs",
+              "DocumentMoniker": "C:\\Users\\onurb\\OneDrive\\Desktop\\survey-app\\survey-backend\\survey-backend.business\\Concrete\\QuestionManager.cs",
+              "RelativeDocumentMoniker": "survey-backend.business\\Concrete\\QuestionManager.cs",
+              "ToolTip": "C:\\Users\\onurb\\OneDrive\\Desktop\\survey-app\\survey-backend\\survey-backend.business\\Concrete\\QuestionManager.cs",
+              "RelativeToolTip": "survey-backend.business\\Concrete\\QuestionManager.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAyAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-02-21T23:07:02.25Z",
               "EditorCaption": ""
             }
           ]

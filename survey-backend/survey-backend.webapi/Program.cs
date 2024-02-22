@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using survey_backend.business.Abstract;
 using survey_backend.business.Concrete;
+using survey_backend.business.Configurations;
 using survey_backend.data.Abstract;
 using survey_backend.data.Concrete.EfCore;
 
@@ -10,17 +11,19 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var connectionString = builder.Configuration.GetConnectionString("MySqlConnection2");
+var connectionString = builder.Configuration.GetConnectionString("MySqlConnection1");
 
 builder.Services.AddDbContext<DataContext>(options => {
      options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 });
 
+builder.Services.AddAutoMapper(typeof(SurveyMapperConfig));
 builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
 builder.Services.AddScoped<IAnswerTypeService,AnswerTypeManager>();
 builder.Services.AddScoped<IOrganizationService,OrganizationManager>();
 builder.Services.AddScoped<IQuestionService,QuestionManager>();
 builder.Services.AddScoped<ISurveyService,SurveyManager>();
+builder.Services.AddScoped<IOptionService,OptionManager>();
 
 var app = builder.Build();
 

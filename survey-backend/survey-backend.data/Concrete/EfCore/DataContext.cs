@@ -15,6 +15,7 @@ namespace survey_backend.data.Concrete.EfCore
         public DbSet<Organization> Organizations { get;set; }
         public DbSet<Question> Questions { get;set; }
         public DbSet<Survey> Surveys { get;set; }
+        public DbSet<Option> Options { get;set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -22,7 +23,8 @@ namespace survey_backend.data.Concrete.EfCore
             modelBuilder.ApplyConfiguration(new OrganizationConfigurations());
             modelBuilder.ApplyConfiguration(new QuestionConfigurations());
             modelBuilder.ApplyConfiguration(new SurveyConfigurations());
-            modelBuilder.Seed();       
+            modelBuilder.ApplyConfiguration(new OptionConfigurations());
+            modelBuilder.Seed();      
         }
     }
 }

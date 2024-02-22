@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using survey_backend.data.Abstract;
 using survey_backend.entity;
 
@@ -12,6 +13,26 @@ namespace survey_backend.data.Concrete.EfCore
         private DataContext DataContext
         {
             get {return _context as DataContext; }
+        }
+
+        public async Task<List<Question>> GetBySurveyId(int id)
+        {
+            var result = await _context.Set<Question>()
+                .Where(x => x.SurveyId == id)
+                .Select(q => new Question {
+                    Id = q.Id,
+                    AnswerTypeId = q.AnswerTypeId,
+                    IsMandatory = q.IsMandatory,
+                    Text = q.Text,
+                    Options = q.Options.Select(o => new Option {
+                        Id = o.Id,
+                        QuestionId = o.QuestionId,
+                        Text = o.Text
+                    }).ToList()
+                })
+                .ToListAsync();
+            
+            return result;
         }
     }
 }

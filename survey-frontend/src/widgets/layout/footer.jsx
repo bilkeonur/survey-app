@@ -13,11 +13,11 @@ export function Footer() {
           <li>
             <Typography
               as="a"
-              href="#"
+              href="/dashboard/home"
               target=""
               variant="small"
               className="py-0.5 px-1 font-normal text-inherit transition-colors hover:text-blue-500">
-                Home
+                Anketler
             </Typography>
           </li>
           <li>
@@ -27,7 +27,7 @@ export function Footer() {
               target=""
               variant="small"
               className="py-0.5 px-1 font-normal text-inherit transition-colors hover:text-blue-500">
-                Login
+                Giriş Yap
             </Typography>
           </li>
         </ul>

@@ -32,6 +32,11 @@ namespace survey_backend.business.Concrete
             return await _unitofwork.Questions.GetById(id);
         }
 
+        public async Task<List<Question>> GetBySurveyId(int id)
+        {
+            return await _unitofwork.Questions.GetBySurveyId(id);
+        }
+
         public async Task UpdateAsync(Question entityToUpdate, Question entity)
         {
             entityToUpdate.Text = entity.Text;

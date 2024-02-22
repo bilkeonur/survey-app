@@ -117,10 +117,80 @@ namespace survey_backend.data.Configurations
                 },
             };
 
+            List<Option> options = new List<Option>() {
+                new Option() {
+                    Id = 1,
+                    QuestionId = 1,
+                    Text = "Evet"
+                },
+                new Option() {
+                    Id = 2,
+                    QuestionId = 1,
+                    Text = "Hayır"
+                },
+                new Option() {
+                    Id = 3,
+                    QuestionId = 2,
+                    Text = "Kadın"
+                },
+                new Option() {
+                    Id = 4,
+                    QuestionId = 2,
+                    Text = "Erkek"
+                },
+                new Option() {
+                    Id = 5,
+                    QuestionId = 3,
+                    Text = "Vahşi Batı"
+                },
+                new Option() {
+                    Id = 6,
+                    QuestionId = 3,
+                    Text = "Bilim Kurgu"
+                },
+                new Option() {
+                    Id = 7,
+                    QuestionId = 3,
+                    Text = "Komedi"
+                },
+                new Option() {
+                    Id = 8,
+                    QuestionId = 4,
+                    Text = "Kedi"
+                },
+                new Option() {
+                    Id = 9,
+                    QuestionId = 4,
+                    Text = "Köpek"
+                },
+                new Option() {
+                    Id = 10,
+                    QuestionId = 4,
+                    Text = "Kuş"
+                },
+                new Option() {
+                    Id = 11,
+                    QuestionId = 8,
+                    Text = "Ankara"
+                },
+                new Option() {
+                    Id = 12,
+                    QuestionId = 8,
+                    Text = "İstanbul"
+                }
+                ,
+                new Option() {
+                    Id = 13,
+                    QuestionId = 8,
+                    Text = "İzmir"
+                }
+            };
+
             builder.Entity<AnswerType>().HasData(answerTypes);
             builder.Entity<Organization>().HasData(organizations);
             builder.Entity<Question>().HasData(questions);
             builder.Entity<Survey>().HasData(surveys);
+            builder.Entity<Option>().HasData(options);
         }
     }
 }

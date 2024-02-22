@@ -5,9 +5,9 @@ using survey_backend.entity;
 namespace survey_backend.business.Concrete
 {
     public class SurveyManager: ISurveyService
-
     {
         private readonly IUnitOfWork _unitofwork;
+        
         public SurveyManager(IUnitOfWork unitofwork)
         {
             _unitofwork = unitofwork;

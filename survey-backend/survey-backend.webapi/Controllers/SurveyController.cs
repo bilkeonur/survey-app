@@ -1,6 +1,8 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using survey_backend.business.Abstract;
 using survey_backend.entity;
+using survey_backend.webapi.DTO;
 
 namespace survey_backend.webapi.Controllers
 {
@@ -9,29 +11,48 @@ namespace survey_backend.webapi.Controllers
     public class SurveyController: ControllerBase
     {
         private readonly ILogger<SurveyController> _logger;
-
+        private readonly IMapper _mapper;
         private ISurveyService _surveyService;
+        private IQuestionService _questionService;
+        private IOptionService _optionService;
 
-        public SurveyController(ILogger<SurveyController> logger, ISurveyService surveyService)
+        public SurveyController(
+            ILogger<SurveyController> logger, 
+            IMapper mapper, 
+            ISurveyService surveyService,
+            IQuestionService questionService,
+            IOptionService optionService)
         {
             _logger = logger;
+            _mapper = mapper;
             _surveyService = surveyService;
+            _questionService = questionService;
+            _optionService = optionService;
         }
 
-        [HttpGet]
+        [HttpGet("surveys")]
         public async Task<IActionResult> GetSurveys()
         {
             var surveys = await _surveyService.GetAll();
-            return Ok(surveys);
+            var result = _mapper.Map<List<SurveyDTO>>(surveys);
+            return Ok(result);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("survey/{id}")]
         public async Task<IActionResult> GetSurvey(int id)
         {
             var survey = await _surveyService.GetById(id);
             
             if(survey == null) return NotFound();
             else return Ok(survey);
+        }
+
+        [HttpGet("questions/{id}")]
+        public async Task<IActionResult> GetQuestions(int id)
+        {
+            var questions = await _questionService.GetBySurveyId(id);
+            var result = _mapper.Map<List<QuestionsDTO>>(questions);
+            return Ok(result);
         }
 
         [HttpPost]
@@ -49,22 +70,12 @@ namespace survey_backend.webapi.Controllers
                 return BadRequest();
             }
 
-            var survey = await _surveyService.GetById(id);
-
-            if(survey == null) return NotFound();
-            
-            await _surveyService.UpdateAsync(survey,entity);
             return NoContent();
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSurvey(int id)
         {
-            var survey = await _surveyService.GetById(id);
-
-            if(survey == null) return NotFound();
-            
-            await _surveyService.DeleteAsync(survey);
             return NoContent();
         }
     }

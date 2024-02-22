@@ -57,6 +57,107 @@ namespace survey_backend.data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("survey_backend.entity.Option", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("QuestionId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("varchar(80)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuestionId");
+
+                    b.ToTable("Options");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            QuestionId = 1,
+                            Text = "Evet"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            QuestionId = 1,
+                            Text = "Hayır"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            QuestionId = 2,
+                            Text = "Kadın"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            QuestionId = 2,
+                            Text = "Erkek"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            QuestionId = 3,
+                            Text = "Vahşi Batı"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            QuestionId = 3,
+                            Text = "Bilim Kurgu"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            QuestionId = 3,
+                            Text = "Komedi"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            QuestionId = 4,
+                            Text = "Kedi"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            QuestionId = 4,
+                            Text = "Köpek"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            QuestionId = 4,
+                            Text = "Kuş"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            QuestionId = 8,
+                            Text = "Ankara"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            QuestionId = 8,
+                            Text = "İstanbul"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            QuestionId = 8,
+                            Text = "İzmir"
+                        });
+                });
+
             modelBuilder.Entity("survey_backend.entity.Organization", b =>
                 {
                     b.Property<int>("Id")
@@ -230,6 +331,17 @@ namespace survey_backend.data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("survey_backend.entity.Option", b =>
+                {
+                    b.HasOne("survey_backend.entity.Question", "Question")
+                        .WithMany("Options")
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Question");
+                });
+
             modelBuilder.Entity("survey_backend.entity.Question", b =>
                 {
                     b.HasOne("survey_backend.entity.AnswerType", "AnswerType")
@@ -258,6 +370,11 @@ namespace survey_backend.data.Migrations
                         .IsRequired();
 
                     b.Navigation("Organization");
+                });
+
+            modelBuilder.Entity("survey_backend.entity.Question", b =>
+                {
+                    b.Navigation("Options");
                 });
 #pragma warning restore 612, 618
         }

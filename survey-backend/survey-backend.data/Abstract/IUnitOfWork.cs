@@ -6,6 +6,8 @@ namespace survey_backend.data.Abstract
         IOrganizationRepository Organizations { get; }
         IQuestionRepository Questions { get; }
         ISurveyRepository Surveys { get; }
+        IOptionRepository Options { get; }
+
         Task<int> SaveAsync();
     }
 }
