@@ -7,6 +7,7 @@ namespace survey_backend.entity
     {
         public int Id { get; set; }
 
+        [Required]
         public int OrganizationId { get; set; }
         
         public Organization? Organization { get; set; }
@@ -21,6 +22,7 @@ namespace survey_backend.entity
         [Required]
         public DateTime EndDate { get; set; }
 
+        [Required]
         public bool IsActive { get; set; } = true;
     }
 }

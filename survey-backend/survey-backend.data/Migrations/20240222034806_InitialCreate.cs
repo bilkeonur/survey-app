@@ -82,7 +82,10 @@ namespace survey_backend.data.Migrations
                     Text = table.Column<string>(type: "varchar(150)", maxLength: 150, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     AnswerTypeId = table.Column<int>(type: "int", nullable: false),
-                    IsMandatory = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    IsMandatory = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    InputFormatId = table.Column<int>(type: "int", nullable: false),
+                    InputFormatRule = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -155,17 +158,17 @@ namespace survey_backend.data.Migrations
 
             migrationBuilder.InsertData(
                 table: "Questions",
-                columns: new[] { "Id", "AnswerTypeId", "IsMandatory", "SurveyId", "Text" },
+                columns: new[] { "Id", "AnswerTypeId", "InputFormatId", "InputFormatRule", "IsMandatory", "SurveyId", "Text" },
                 values: new object[,]
                 {
-                    { 1, 1, true, 1, "Çalıştığınız İşten Memnun musunuz?" },
-                    { 2, 1, false, 1, "Cinsiyetiniz" },
-                    { 3, 2, true, 1, "Sevdiğiniz Film Türleri" },
-                    { 4, 2, false, 1, "Sahip Olduğunuz Hayvanlar" },
-                    { 5, 3, true, 2, "Yaşınız" },
-                    { 6, 3, false, 2, "Bize İletmek İstediğiniz Mesaj" },
-                    { 7, 3, true, 2, "Doğum Tarihi" },
-                    { 8, 4, true, 2, "Yaşadığınız Şehir" }
+                    { 1, 1, 1, "", true, 1, "Çalıştığınız İşten Memnun musunuz?" },
+                    { 2, 1, 1, "", false, 1, "Cinsiyetiniz" },
+                    { 3, 2, 1, "", true, 1, "Sevdiğiniz Film Türleri" },
+                    { 4, 2, 1, "", false, 1, "Sahip Olduğunuz Hayvanlar" },
+                    { 5, 3, 2, "{\"min\":18,\"max\":65}", true, 2, "Yaşınız" },
+                    { 6, 3, 3, "{\"max\":200}", false, 2, "Bize İletmek İstediğiniz Mesaj" },
+                    { 7, 3, 4, "{\"pattern\":\"gg\\aa\\yyyy\"}", true, 2, "Doğum Tarihi" },
+                    { 8, 1, 0, "", true, 2, "Yaşadığınız Şehir" }
                 });
 
             migrationBuilder.InsertData(

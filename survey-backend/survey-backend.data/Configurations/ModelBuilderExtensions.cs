@@ -64,56 +64,67 @@ namespace survey_backend.data.Configurations
                     SurveyId = 1,
                     Text = "Çalıştığınız İşten Memnun musunuz?",
                     AnswerTypeId = 1,
-                    IsMandatory = true
+                    IsMandatory = true,
+                    InputFormatId = 1,
                 },
                 new Question() {
                     Id = 2,
                     SurveyId = 1,
                     Text = "Cinsiyetiniz",
                     AnswerTypeId = 1,
-                    IsMandatory = false
+                    IsMandatory = false,
+                    InputFormatId = 1
                 },
                 new Question() {
                     Id = 3,
                     SurveyId = 1,
                     Text = "Sevdiğiniz Film Türleri",
                     AnswerTypeId = 2,
-                    IsMandatory = true
+                    IsMandatory = true,
+                    InputFormatId = 1
                 },
                 new Question() {
                     Id = 4,
                     SurveyId = 1,
                     Text = "Sahip Olduğunuz Hayvanlar",
                     AnswerTypeId = 2,
-                    IsMandatory = false
+                    IsMandatory = false,
+                    InputFormatId = 1
                 },
                 new Question() {
                     Id = 5,
                     SurveyId = 2,
                     Text = "Yaşınız",
                     AnswerTypeId = 3,
-                    IsMandatory = true
+                    IsMandatory = true,
+                    InputFormatId = 2,
+                    InputFormatRule = "{\"min\":18,\"max\":65}"
                 },
                 new Question() {
                     Id = 6,
                     SurveyId = 2,
                     Text = "Bize İletmek İstediğiniz Mesaj",
                     AnswerTypeId = 3,
-                    IsMandatory=false
+                    IsMandatory=false,
+                    InputFormatId = 3,
+                    InputFormatRule = "{\"max\":200}"
                 },
                 new Question() {
                     Id = 7,
                     SurveyId = 2,
                     Text = "Doğum Tarihi",
                     AnswerTypeId = 3,
-                    IsMandatory = true
+                    IsMandatory = true,
+                    InputFormatId = 4,
+                    InputFormatRule = "{\"pattern\":\"gg\\aa\\yyyy\"}"
                 },
                 new Question() {
                     Id = 8,
                     SurveyId = 2,
                     Text = "Yaşadığınız Şehir",
                     AnswerTypeId = 4,
-                    IsMandatory = true
+                    IsMandatory = true,
+                    InputFormatId = 1
                 },
             };
 

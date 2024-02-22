@@ -1,3 +1,3 @@
-export const baseUrl = "http://localhost:32813/api/survey/"
+export const baseUrl = "http://localhost:32814/api/survey/"
     
 export default baseUrl;

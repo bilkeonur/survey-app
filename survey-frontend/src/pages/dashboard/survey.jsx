@@ -34,7 +34,7 @@ export function Survey() {
               <div>Loading...</div>
               ) : (
                 <>
-                  <Card>
+                  <Card className={question.isMandatory ? 'bg-gray-200' : 'bg-white'}>
                     <CardHeader
                       color="transparent"
                       floated={false}
@@ -65,7 +65,7 @@ export function Survey() {
                     }
                     {question.answerTypeId == 3 &&
                       <div className="flex gap-10">
-                        <Textarea label="(10-99)"/>
+                        <Textarea label={question.inputFormatRule}/>
                       </div>
                     }
                     {question.answerTypeId == 4 &&

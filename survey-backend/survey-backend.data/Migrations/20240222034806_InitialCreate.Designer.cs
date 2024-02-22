@@ -11,7 +11,7 @@ using survey_backend.data.Concrete.EfCore;
 namespace survey_backend.data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240222003601_InitialCreate")]
+    [Migration("20240222034806_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -198,6 +198,13 @@ namespace survey_backend.data.Migrations
                     b.Property<int>("AnswerTypeId")
                         .HasColumnType("int");
 
+                    b.Property<int>("InputFormatId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("InputFormatRule")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<bool>("IsMandatory")
                         .HasColumnType("tinyint(1)");
 
@@ -222,6 +229,8 @@ namespace survey_backend.data.Migrations
                         {
                             Id = 1,
                             AnswerTypeId = 1,
+                            InputFormatId = 1,
+                            InputFormatRule = "",
                             IsMandatory = true,
                             SurveyId = 1,
                             Text = "Çalıştığınız İşten Memnun musunuz?"
@@ -230,6 +239,8 @@ namespace survey_backend.data.Migrations
                         {
                             Id = 2,
                             AnswerTypeId = 1,
+                            InputFormatId = 1,
+                            InputFormatRule = "",
                             IsMandatory = false,
                             SurveyId = 1,
                             Text = "Cinsiyetiniz"
@@ -238,6 +249,8 @@ namespace survey_backend.data.Migrations
                         {
                             Id = 3,
                             AnswerTypeId = 2,
+                            InputFormatId = 1,
+                            InputFormatRule = "",
                             IsMandatory = true,
                             SurveyId = 1,
                             Text = "Sevdiğiniz Film Türleri"
@@ -246,6 +259,8 @@ namespace survey_backend.data.Migrations
                         {
                             Id = 4,
                             AnswerTypeId = 2,
+                            InputFormatId = 1,
+                            InputFormatRule = "",
                             IsMandatory = false,
                             SurveyId = 1,
                             Text = "Sahip Olduğunuz Hayvanlar"
@@ -254,6 +269,8 @@ namespace survey_backend.data.Migrations
                         {
                             Id = 5,
                             AnswerTypeId = 3,
+                            InputFormatId = 2,
+                            InputFormatRule = "{\"min\":18,\"max\":65}",
                             IsMandatory = true,
                             SurveyId = 2,
                             Text = "Yaşınız"
@@ -262,6 +279,8 @@ namespace survey_backend.data.Migrations
                         {
                             Id = 6,
                             AnswerTypeId = 3,
+                            InputFormatId = 3,
+                            InputFormatRule = "{\"max\":200}",
                             IsMandatory = false,
                             SurveyId = 2,
                             Text = "Bize İletmek İstediğiniz Mesaj"
@@ -270,6 +289,8 @@ namespace survey_backend.data.Migrations
                         {
                             Id = 7,
                             AnswerTypeId = 3,
+                            InputFormatId = 4,
+                            InputFormatRule = "{\"pattern\":\"gg\\aa\\yyyy\"}",
                             IsMandatory = true,
                             SurveyId = 2,
                             Text = "Doğum Tarihi"
@@ -277,7 +298,9 @@ namespace survey_backend.data.Migrations
                         new
                         {
                             Id = 8,
-                            AnswerTypeId = 4,
+                            AnswerTypeId = 1,
+                            InputFormatId = 0,
+                            InputFormatRule = "",
                             IsMandatory = true,
                             SurveyId = 2,
                             Text = "Yaşadığınız Şehir"

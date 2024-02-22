@@ -23,6 +23,8 @@ namespace survey_backend.data.Concrete.EfCore
                     Id = q.Id,
                     AnswerTypeId = q.AnswerTypeId,
                     IsMandatory = q.IsMandatory,
+                    InputFormatId = q.InputFormatId,
+                    InputFormatRule = q.InputFormatRule,
                     Text = q.Text,
                     Options = q.Options.Select(o => new Option {
                         Id = o.Id,
