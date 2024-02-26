@@ -55,7 +55,7 @@ app.UseCors(builder => builder
     .AllowAnyHeader()
 );   
 
-app.MapIdentityApi<IdentityUser>();
+app.MapGroup("/identity").MapIdentityApi<IdentityUser>();
 app.UseAuthorization();
 app.MapControllers();
 

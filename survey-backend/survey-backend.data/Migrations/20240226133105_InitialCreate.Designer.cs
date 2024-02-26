@@ -12,7 +12,7 @@ using survey_backend.data.Concrete.EfCore;
 namespace survey_backend.data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240224032744_InitialCreate")]
+    [Migration("20240226133105_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -387,12 +387,12 @@ namespace survey_backend.data.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "Su Bilgi Teknolojileri"
+                            Name = "Test Şirket 1"
                         },
                         new
                         {
                             Id = 2,
-                            Name = "Onr Bilgi Teknolojileri"
+                            Name = "Test Şirket 2"
                         });
                 });
 

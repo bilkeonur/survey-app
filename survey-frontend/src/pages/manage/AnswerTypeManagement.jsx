@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Typography, Card, CardHeader, CardBody, Avatar} from "@material-tailwind/react";
+import { IconButton, Button, Typography, Card, CardHeader, CardBody, Avatar} from "@material-tailwind/react";
 import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
+import { NavLink, useNavigate } from "react-router-dom";
 import { baseUrl } from "@/constant";
 
 export function AnswerTypeManagement() {
@@ -10,7 +11,7 @@ export function AnswerTypeManagement() {
 
   useEffect(() => {
     setLoading(true)
-    fetch(baseUrl + 'survey/answertypes', {
+    fetch(baseUrl + 'answertypes/get', {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem("accessToken")}`,
@@ -36,6 +37,9 @@ export function AnswerTypeManagement() {
               </Typography>
             </CardHeader>
             <CardBody className="overflow-x-scroll px-0 pt-0 pb-2">
+              <NavLink to={'/manage/createanswertype'}>
+                <Button className="ml-4" color="amber">Cevap Tipi Ekle</Button>
+              </NavLink>
               <table className="w-full min-w-[640px] table-auto">
                 <thead>
                   <tr>
@@ -63,7 +67,7 @@ export function AnswerTypeManagement() {
                             : "border-b border-blue-gray-50"}`;
                         return (
                           <tr key={id} className="hover:cursor-pointer opacity-100 transition-all hover:text-blue-500 hover:opacity-50">
-                            <td className={className}>
+                            <td width='95%' className={className}>
                               <div className="flex items-center gap-4">
                                 <Avatar src={"/img/options.svg"} alt={id} size="sm" />
                                 <Typography
@@ -74,15 +78,15 @@ export function AnswerTypeManagement() {
                                 </Typography>
                               </div>
                             </td>
-                            <td className={className}>
-                              <Typography
-                                as="a"
-                                href="#"
-                                className="text-xs font-semibold text-blue-gray-600">
-                                <EllipsisVerticalIcon
-                                  strokeWidth={2}
-                                  className="h-5 w-5 text-inherit"/>
-                              </Typography>
+                            <td width='5%' className={className}>
+                              <div className="flex items-center gap-4">
+                                <IconButton onClick={() => editCompany(key)} size="md" color="blue" variant="outlined" className="m-2">
+                                  <i className="fa-solid fa-pen-to-square fa-md" />
+                                </IconButton>
+                                <IconButton onClick={() => deleteCompany(key)} size="md" color="red" variant="outlined" className="m-2">
+                                  <i className="fa-solid fa-trash fa-md" />
+                                </IconButton>
+                              </div>
                             </td>
                           </tr>
                         );

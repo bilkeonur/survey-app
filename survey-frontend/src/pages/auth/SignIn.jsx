@@ -17,7 +17,7 @@ export function SignIn() {
     password: string()
       .required("Şifrenizi Girmelisiniz")
       .min(4,"Şifre Minimum 4 Karakter Olmalıdır")
-      .max(10,"Şifre Maximum 10 Karakter Olmalıdır"),
+      .max(10,"Şifre Maximum 10 Karakter Olmalıdır")
   });
 
   const handleChange = (e) => {
@@ -25,25 +25,27 @@ export function SignIn() {
     setFormData({...formData, [name]: value});
   };
 
+  const signIn = () => {
+    fetch(baseUrl + 'identity/login', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({email: formData.email, password: formData.password})
+    })
+    .then((res) => { return res.json() })
+    .then((data) => {
+      if(data.accessToken != undefined) {
+        login(data);
+      }
+    })
+    .catch(error => {console.log(error)});
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setErrors("");
     try {
       await validationSchema.validate(formData, {abortEarly: false});
-
-      fetch(baseUrl + 'login', {
-        method: 'POST',
-        headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({email: formData.email, password: formData.password})
-      })
-      .then((res) => { return res.json() })
-      .then((data) => {
-        console.log(data);
-        if(data.accessToken != undefined) {
-          login(data);
-        }
-      })
-      .catch(error => {console.log(error)});
+      signIn();
     } 
     catch (error) {
       const newErrors = {};
@@ -57,7 +59,7 @@ export function SignIn() {
 
   return (
     <div className="h-screen w-full flex justify-center items-center bg-blue-gray-50/50">
-      <Card className="w-1/4 h-1/3">
+      <Card className="w-1/4 h-auto pt-5 pb-5">
         <div className="pt-2">
           <div className="text-center">
             <Typography variant="h2" className="font-bold mb-4">Giriş Yap</Typography>
@@ -113,7 +115,7 @@ export function SignIn() {
 
             <div className="flex items-center justify-between gap-2 mt-2">
               <Typography variant="small" className="font-medium text-gray-900 underline">
-                <a href="/auth/sign-up">Kayıt Ol</a>
+                <a href="/auth/signup">Kayıt Ol</a>
               </Typography>
               <Typography variant="small" className="font-medium text-gray-900 underline">
                 <a href="/dashboard/home">Ana Sayfa</a>

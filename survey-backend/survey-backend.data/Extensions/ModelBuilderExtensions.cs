@@ -29,11 +29,11 @@ namespace survey_backend.data.Extensions
             List<Organization> organizations = new List<Organization>() {
                 new Organization() {
                     Id = 1,
-                    Name = "Su Bilgi Teknolojileri"
+                    Name = "Test Şirket 1"
                 },
                 new Organization() {
                     Id = 2,
-                    Name = "Onr Bilgi Teknolojileri"
+                    Name = "Test Şirket 2"
                 }
             };
 

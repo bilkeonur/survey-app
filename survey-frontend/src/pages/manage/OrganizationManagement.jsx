@@ -1,17 +1,23 @@
 import { useState, useEffect } from 'react';
-import { Typography, Card, CardHeader, CardBody, Avatar} from "@material-tailwind/react";
-import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
+import { IconButton, Button, Typography, Card, CardHeader, CardBody, Avatar} from "@material-tailwind/react";
+import { NavLink, useNavigate } from "react-router-dom";
 import { baseUrl } from "@/constant";
-import { useAuth } from "@/provider/AuthProvider";
+
 
 export function OrganizationManagement() {
   
+  const navigate = useNavigate();
+
   const [organizations, setOrganizations] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    getCompanies();
+  }, []);
+
+  const getCompanies = (id) => {
     setLoading(true)
-    fetch(baseUrl + 'survey/organizations', {
+    fetch(baseUrl + 'organizations/get', {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem("accessToken")}`,
@@ -22,7 +28,24 @@ export function OrganizationManagement() {
     .then((res) => {return res.json()})
     .then((data) => {setOrganizations(data)})
     .finally(() => {setLoading(false)})
-  }, []);
+  }; 
+
+  const editCompany = (id) => {
+    navigate('/manage/createorganization', { state: { organization: organizations[id] }});
+  };
+
+  const deleteCompany = (id) => {
+    fetch(baseUrl + `organizations/delete/${organizations[id].id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem("accessToken")}`
+      }
+    })
+    .then((res) => { 
+      getCompanies();
+    })
+    .catch(error => {console.log(error)});
+  };
 
   return (
     <div className="mt-12 mb-8 flex flex-col gap-12">
@@ -37,6 +60,9 @@ export function OrganizationManagement() {
               </Typography>
             </CardHeader>
             <CardBody className="overflow-x-scroll px-0 pt-0 pb-2">
+            <NavLink to={'/manage/createorganization'}>
+              <Button className="ml-4" color="amber">Şirket Ekle</Button>
+            </NavLink>
               <table className="w-full min-w-[640px] table-auto">
                 <thead>
                   <tr>
@@ -64,7 +90,7 @@ export function OrganizationManagement() {
                             : "border-b border-blue-gray-50"}`;
                         return (
                           <tr key={id} className="hover:cursor-pointer opacity-100 transition-all hover:text-blue-500 hover:opacity-50">
-                            <td className={className}>
+                            <td width='95%' className={className}>
                               <div className="flex items-center gap-4">
                                 <Avatar src={"/img/company.svg"} alt={id} size="sm" />
                                 <Typography
@@ -75,15 +101,15 @@ export function OrganizationManagement() {
                                 </Typography>
                               </div>
                             </td>
-                            <td className={className}>
-                              <Typography
-                                as="a"
-                                href="#"
-                                className="text-xs font-semibold text-blue-gray-600">
-                                <EllipsisVerticalIcon
-                                  strokeWidth={2}
-                                  className="h-5 w-5 text-inherit"/>
-                              </Typography>
+                            <td width='5%' className={className}>
+                              <div className="flex items-center gap-4">
+                                <IconButton onClick={() => editCompany(key)} size="md" color="blue" variant="outlined" className="m-2">
+                                  <i className="fa-solid fa-pen-to-square fa-md" />
+                                </IconButton>
+                                <IconButton onClick={() => deleteCompany(key)} size="md" color="red" variant="outlined" className="m-2">
+                                  <i className="fa-solid fa-trash fa-md" />
+                                </IconButton>
+                              </div>
                             </td>
                           </tr>
                         );

@@ -273,8 +273,8 @@ namespace survey_backend.data.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { 1, "Su Bilgi Teknolojileri" },
-                    { 2, "Onr Bilgi Teknolojileri" }
+                    { 1, "Test Şirket 1" },
+                    { 2, "Test Şirket 2" }
                 });
 
             migrationBuilder.InsertData(

@@ -1,6 +1,6 @@
-import { ListBulletIcon, ServerStackIcon, RectangleStackIcon } from "@heroicons/react/24/solid";
+import { HomeIcon, ListBulletIcon, ChatBubbleBottomCenterTextIcon, BuildingOfficeIcon, ServerStackIcon, RectangleStackIcon, ClipboardDocumentListIcon } from "@heroicons/react/24/solid";
 import { Home, Survey, Question } from "@/pages/dashboard";
-import { AnswerTypeManagement, OrganizationManagement } from "@/pages/manage";
+import { AnswerTypeManagement, CreateOrganization, OrganizationManagement, SurveyManagement } from "@/pages/manage";
 import { SignIn, SignUp } from "@/pages/auth";
 import Authorization from "@/provider/Authorization";
 import Permissions from "@/provider/Permissions";
@@ -14,7 +14,7 @@ export const routes = [
         layout: "dashboard",
         pages: [
             {
-                icon: <ListBulletIcon {...icon} />,
+                icon: <HomeIcon {...icon} />,
                 name: "Ana Sayfa",
                 path: "/home",
                 active: true,
@@ -28,7 +28,7 @@ export const routes = [
               element: <Survey />
             },
             {
-              icon: <ListBulletIcon {...icon} />,
+              icon: <ChatBubbleBottomCenterTextIcon {...icon} />,
               name: "Sorular",
               path: "/question",
               active: false,
@@ -60,7 +60,7 @@ export const routes = [
       title: "Anket Yönetimi",
       pages: [
         {
-          icon: <ListBulletIcon {...icon} />,
+          icon: <BuildingOfficeIcon {...icon} />,
           name: "Şirket Yönetimi",
           path: "/organizationmanagement",
           active: true,
@@ -68,10 +68,24 @@ export const routes = [
         },
         {
           icon: <ListBulletIcon {...icon} />,
+          name: "Şirket Ekle",
+          path: "/createorganization",
+          active: false,
+          element: <Authorization element={<CreateOrganization/>} permissions={[Permissions.CREATE_ORGANIZATION]}/>
+        },
+        {
+          icon: <ChatBubbleBottomCenterTextIcon {...icon} />,
           name: "Cevap Tipi Yönetimi",
           path: "/answertypemanagement",
           active: true,
           element: <Authorization element={<AnswerTypeManagement/>} permissions={[Permissions.ANSWER_TYPE_MANAGEMENT]}/>
+        },
+        {
+          icon: <ClipboardDocumentListIcon {...icon} />,
+          name: "Anket Yönetimi",
+          path: "/surveymanagement",
+          active: true,
+          element: <Authorization element={<SurveyManagement/>} permissions={[Permissions.SURVEY_MANAGEMENT]}/>
         }
       ]
     }

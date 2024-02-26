@@ -1,3 +1,3 @@
-export const baseUrl = "http://localhost:32772/"
+export const baseUrl = "http://localhost:32782/"
     
 export default baseUrl;

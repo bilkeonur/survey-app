@@ -384,12 +384,12 @@ namespace survey_backend.data.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "Su Bilgi Teknolojileri"
+                            Name = "Test Şirket 1"
                         },
                         new
                         {
                             Id = 2,
-                            Name = "Onr Bilgi Teknolojileri"
+                            Name = "Test Şirket 2"
                         });
                 });
 

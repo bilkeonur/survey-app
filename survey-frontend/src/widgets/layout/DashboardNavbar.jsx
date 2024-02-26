@@ -27,14 +27,12 @@ export function DashboardNavbar() {
           <Breadcrumbs
             className={`bg-transparent p-0 transition-all ${
               fixedNavbar ? "mt-1" : ""}`}>
-            <Link to={`/${layout}`}>
-              <Typography
-                variant="small"
-                color="blue-gray"
-                className="font-normal opacity-50 transition-all hover:text-blue-500 hover:opacity-100">
-                {layout}
-              </Typography>
-            </Link>
+            <Typography
+              variant="small"
+              color="blue-gray"
+              className="font-normal opacity-50 transition-all hover:text-blue-500 hover:opacity-100">
+              {layout}
+            </Typography>
             <Typography
               variant="small"
               color="blue-gray"

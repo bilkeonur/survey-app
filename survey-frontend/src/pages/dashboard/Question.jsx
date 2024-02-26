@@ -12,7 +12,7 @@ export function Question() {
 
   useEffect(() => {
     setLoading(true)
-    fetch(baseUrl + `survey/questions/${surveyId}`)
+    fetch(baseUrl + `questions/get${surveyId}`)
       .then((res) => {return res.json()})
       .then((data) => {setQuestions(data)})
       .finally(() => {setLoading(false)})
@@ -74,7 +74,7 @@ export function Question() {
                             {question.options.map((option) => {
                               return (
                                 <Option key={crypto.randomUUID()}>{option.text}</Option>
-                              );
+                              )
                             })}
                           </Select>
                         </div>
@@ -85,7 +85,7 @@ export function Question() {
                 ))
               }
             </>
-          )};
+          )}
         </CardBody>
       </Card>
     </div>

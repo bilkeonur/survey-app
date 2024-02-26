@@ -1,26 +1,16 @@
-import { Card,CardHeader,CardBody,Typography,Avatar } from "@material-tailwind/react";
-import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 import { useState, useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
+import { IconButton, Button, Typography, Card, CardHeader, CardBody, Avatar} from "@material-tailwind/react";
+import { NavLink, useNavigate } from "react-router-dom";
 import { baseUrl } from "@/constant";
 
-export function Survey() {
-
-  const navigate = useNavigate();
-
+export function SurveyManagement() {
+  
   const [surveys, setSurveys] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [rowId, setRowId] = useState();
 
   useEffect(() => {
     getSurveys();
   }, []);
-
-  useEffect(() => {
-    if(rowId != undefined) {
-      navigate('/dashboard/question', { state: { surveyId: rowId, surveyName: surveys[rowId-1].title } });
-    }
-  },[rowId]);
 
   const getSurveys = () => {
     setLoading(true)
@@ -39,14 +29,17 @@ export function Survey() {
           <Card>
             <CardHeader variant="gradient" color="gray" className="mb-8 p-6">
               <Typography variant="h6" color="white">
-                Aktif Anketler
+                Anket Yönetimi
               </Typography>
             </CardHeader>
             <CardBody className="overflow-x-scroll px-0 pt-0 pb-2">
+              <NavLink to={'/manage/createorganization'}>
+                <Button className="ml-4" color="amber">Anket Ekle</Button>
+              </NavLink>
               <table className="w-full min-w-[640px] table-auto">
                 <thead>
                   <tr>
-                    {["Anket Adı", "Şirket", "Başlangıç Tarihi", "Bitiş Tarihi"].map(
+                    {["Anket Adı", "Şirket", "Başlangıç Tarihi", "Bitiş Tarihi", ""].map(
                       (el) => (
                         <th
                           key={el}
@@ -83,7 +76,7 @@ export function Survey() {
                                 </Typography>
                               </div>
                             </td>
-                            <td width='20%'className={className}>
+                            <td  width='15%'className={className}>
                               <div className="flex items-center gap-4">
                                 <Typography
                                   variant="small"
@@ -106,6 +99,16 @@ export function Survey() {
                                 {endDate}
                               </Typography>
                             </td>
+                            <td width='5%' className={className}>
+                              <div className="flex items-center gap-4">
+                                <IconButton onClick={() => editSurvey(key)} size="md" color="blue" variant="outlined" className="m-2">
+                                  <i className="fa-solid fa-pen-to-square fa-md" />
+                                </IconButton>
+                                <IconButton onClick={() => deleteSurvey(key)} size="md" color="red" variant="outlined" className="m-2">
+                                  <i className="fa-solid fa-trash fa-md" />
+                                </IconButton>
+                              </div>
+                            </td>
                           </tr>
                         );
                       }
@@ -120,4 +123,4 @@ export function Survey() {
   );
 }
 
-export default Survey;
+export default SurveyManagement;
