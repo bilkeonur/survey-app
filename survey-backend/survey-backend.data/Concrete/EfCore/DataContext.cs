@@ -1,10 +1,12 @@
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using survey_backend.data.Configurations;
+using survey_backend.data.Extensions;
 using survey_backend.entity;
 
 namespace survey_backend.data.Concrete.EfCore
 {
-    public class DataContext: DbContext
+    public class DataContext: IdentityDbContext
     {
         public DataContext(DbContextOptions options): base(options)
         {
@@ -19,6 +21,7 @@ namespace survey_backend.data.Concrete.EfCore
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfiguration(new AnswerTypeConfigurations());
             modelBuilder.ApplyConfiguration(new OrganizationConfigurations());
             modelBuilder.ApplyConfiguration(new QuestionConfigurations());

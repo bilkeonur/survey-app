@@ -1,21 +1,36 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using survey_backend.business.Abstract;
 using survey_backend.business.Concrete;
 using survey_backend.business.Configurations;
 using survey_backend.data.Abstract;
 using survey_backend.data.Concrete.EfCore;
+using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options => {
+    options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+    {
+        In=ParameterLocation.Header,
+        Name="Authorization",
+        Type=SecuritySchemeType.ApiKey
+    });
 
-var connectionString = builder.Configuration.GetConnectionString("MySqlConnection1");
+    options.OperationFilter<SecurityRequirementsOperationFilter>();
+});
 
 builder.Services.AddDbContext<DataContext>(options => {
-     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection2"));
 });
+
+builder.Services.AddAuthorization();
+
+builder.Services.AddIdentityApiEndpoints<IdentityUser>()
+    .AddEntityFrameworkStores<DataContext>();
 
 builder.Services.AddAutoMapper(typeof(SurveyMapperConfig));
 builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
@@ -40,6 +55,7 @@ app.UseCors(builder => builder
     .AllowAnyHeader()
 );   
 
+app.MapIdentityApi<IdentityUser>();
 app.UseAuthorization();
 app.MapControllers();
 

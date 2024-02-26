@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import { Typography } from "@material-tailwind/react";
 
 export function Footer() {
@@ -12,22 +11,9 @@ export function Footer() {
         <ul className="flex items-center gap-4">
           <li>
             <Typography
-              as="a"
-              href="/dashboard/home"
-              target=""
               variant="small"
               className="py-0.5 px-1 font-normal text-inherit transition-colors hover:text-blue-500">
-                Anketler
-            </Typography>
-          </li>
-          <li>
-            <Typography
-              as="a"
-              href="#"
-              target=""
-              variant="small"
-              className="py-0.5 px-1 font-normal text-inherit transition-colors hover:text-blue-500">
-                Giriş Yap
+                Anket Uygulaması
             </Typography>
           </li>
         </ul>

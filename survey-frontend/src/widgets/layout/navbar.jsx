@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import { Navbar as MTNavbar,Collapse,Typography,Button,IconButton } from "@material-tailwind/react";
+import { Navbar as MTNavbar,Collapse,Typography,IconButton } from "@material-tailwind/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 
 export function Navbar({ brandName, routes, action }) {
@@ -22,12 +22,11 @@ export function Navbar({ brandName, routes, action }) {
           as="li"
           variant="small"
           color="blue-gray"
-          className="capitalize"
-        >
+          className="capitalize">
           <Link to={path} className="flex items-center gap-1 p-1 font-normal">
             {icon &&
               React.createElement(icon, {
-                className: "w-[18px] h-[18px] opacity-50 mr-1",
+                className: "w-[18px] h-[18px] opacity-50 mr-1"
               })}
             {name}
           </Link>
@@ -42,8 +41,7 @@ export function Navbar({ brandName, routes, action }) {
         <Link to="/">
           <Typography
             variant="small"
-            className="mr-4 ml-2 cursor-pointer py-1.5 font-bold"
-          >
+            className="mr-4 ml-2 cursor-pointer py-1.5 font-bold">
             {brandName}
           </Typography>
         </Link>
@@ -55,8 +53,7 @@ export function Navbar({ brandName, routes, action }) {
           variant="text"
           size="sm"
           className="ml-auto text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
-          onClick={() => setOpenNav(!openNav)}
-        >
+          onClick={() => setOpenNav(!openNav)}>
           {openNav ? (
             <XMarkIcon strokeWidth={2} className="h-6 w-6" />
           ) : (
@@ -75,20 +72,6 @@ export function Navbar({ brandName, routes, action }) {
     </MTNavbar>
   );
 }
-
-Navbar.defaultProps = {
-  brandName: "Anket Uygulaması",
-  action: (
-    <a
-      href="https://www.creative-tim.com/product/material-tailwind-dashboard-react"
-      target="_blank"
-    >
-      <Button variant="gradient" size="sm" fullWidth>
-        free download
-      </Button>
-    </a>
-  ),
-};
 
 Navbar.propTypes = {
   brandName: PropTypes.string,
