@@ -13,6 +13,7 @@ namespace survey_backend.webapi.Controllers
     {
         private readonly ILogger<SurveyController> _logger;
         private readonly IMapper _mapper;
+        private IAnswerService _answerService;
         private IAnswerTypeService _answerTypeService;
         private IOrganizationService _organizationService;
         private ISurveyService _surveyService;
@@ -22,6 +23,7 @@ namespace survey_backend.webapi.Controllers
         public SurveyController(
             ILogger<SurveyController> logger, 
             IMapper mapper,
+            IAnswerService answerService,
             IAnswerTypeService answerTypeService,
             IOrganizationService organizationService,
             ISurveyService surveyService,
@@ -30,11 +32,42 @@ namespace survey_backend.webapi.Controllers
         {
             _logger = logger;
             _mapper = mapper;
+            _answerService = answerService;
             _answerTypeService = answerTypeService;
             _organizationService = organizationService;
             _surveyService = surveyService;
             _questionService = questionService;
             _optionService = optionService;
+        }
+
+        [HttpGet("answers/get"), Authorize]
+        public async Task<IActionResult> GetAnswers()
+        {
+            var answers = await _answerService.GetAll();
+            return Ok(answers);
+        }
+
+        [HttpGet("answers/get{id}"), Authorize]
+        public async Task<IActionResult> GetAnswer(int id)
+        {
+            var answer = await _answerService.GetById(id);
+            
+            if(answer == null) return NotFound();
+            else return Ok(answer);
+        }
+
+        [HttpPost("answers/create")]
+        public async Task<IActionResult> CreateAnswer(List<Answer> entities)
+        {
+            await _answerService.CreateRange(entities);
+            return Ok();
+        }
+
+        [HttpGet("answer/statics")]
+        public async Task<IActionResult> GetStatics()
+        {
+            var statics = await _answerService.CalculateStatics();
+            return Ok();
         }
 
         [HttpGet("answertypes/get"), Authorize]
@@ -146,6 +179,37 @@ namespace survey_backend.webapi.Controllers
             
             if(survey == null) return NotFound();
             else return Ok(survey);
+        }
+
+        [HttpPost("surveys/create"), Authorize]
+        public async Task<IActionResult> CreateSurvey(Survey entity)
+        {
+            await _surveyService.CreateAsync(entity);
+            return CreatedAtAction(nameof(GetSurvey), new {id=entity.Id},entity);
+        }
+
+        [HttpPut("surveys/update/{id}"), Authorize]
+        public async Task<IActionResult> UpdateSurvey(int id, Survey entity)
+        {
+            if (id != entity.Id) { return BadRequest();}
+
+            var survey = await _surveyService.GetById(id);
+
+            if(survey == null) { return NotFound(); }
+
+            await _surveyService.UpdateAsync(survey,entity);
+
+            return NoContent();
+        }
+
+        [HttpDelete("surveys/delete/{id}"), Authorize]
+        public async Task<IActionResult> DeleteSurvey(int id)
+        {
+            var survey = await _surveyService.GetById(id);
+
+            if(survey == null){ return NotFound();}
+            await _surveyService.DeleteAsync(survey);
+            return NoContent();
         }
 
         [HttpGet("questions/get{id}")]

@@ -12,6 +12,9 @@ namespace survey_backend.data.Concrete.EfCore
             _context = context;
         }
 
+        private AnswerRepository _answerRepository;
+        public IAnswerRepository Answers => _answerRepository ?? new AnswerRepository(_context);
+
         private AnswerTypeRepository _answerTypeRepository;
         public IAnswerTypeRepository AnswerTypes => _answerTypeRepository ?? new AnswerTypeRepository(_context);
 

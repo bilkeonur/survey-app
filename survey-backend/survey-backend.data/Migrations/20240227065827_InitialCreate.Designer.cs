@@ -12,7 +12,7 @@ using survey_backend.data.Concrete.EfCore;
 namespace survey_backend.data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240226133105_InitialCreate")]
+    [Migration("20240227065827_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -223,6 +223,33 @@ namespace survey_backend.data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("survey_backend.entity.Answer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("QuestionId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SelOptions")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SurveyId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuestionId");
+
+                    b.HasIndex("SurveyId");
+
+                    b.ToTable("Answers");
+                });
+
             modelBuilder.Entity("survey_backend.entity.AnswerType", b =>
                 {
                     b.Property<int>("Id")
@@ -271,13 +298,13 @@ namespace survey_backend.data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("QuestionId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Text")
+                    b.Property<string>("Label")
                         .IsRequired()
                         .HasMaxLength(80)
                         .HasColumnType("nvarchar(80)");
+
+                    b.Property<int>("QuestionId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -289,80 +316,80 @@ namespace survey_backend.data.Migrations
                         new
                         {
                             Id = 1,
-                            QuestionId = 1,
-                            Text = "Evet"
+                            Label = "Evet",
+                            QuestionId = 1
                         },
                         new
                         {
                             Id = 2,
-                            QuestionId = 1,
-                            Text = "Hayır"
+                            Label = "Hayır",
+                            QuestionId = 1
                         },
                         new
                         {
                             Id = 3,
-                            QuestionId = 2,
-                            Text = "Kadın"
+                            Label = "Kadın",
+                            QuestionId = 2
                         },
                         new
                         {
                             Id = 4,
-                            QuestionId = 2,
-                            Text = "Erkek"
+                            Label = "Erkek",
+                            QuestionId = 2
                         },
                         new
                         {
                             Id = 5,
-                            QuestionId = 3,
-                            Text = "Vahşi Batı"
+                            Label = "Vahşi Batı",
+                            QuestionId = 3
                         },
                         new
                         {
                             Id = 6,
-                            QuestionId = 3,
-                            Text = "Bilim Kurgu"
+                            Label = "Bilim Kurgu",
+                            QuestionId = 3
                         },
                         new
                         {
                             Id = 7,
-                            QuestionId = 3,
-                            Text = "Komedi"
+                            Label = "Komedi",
+                            QuestionId = 3
                         },
                         new
                         {
                             Id = 8,
-                            QuestionId = 4,
-                            Text = "Kedi"
+                            Label = "Kedi",
+                            QuestionId = 4
                         },
                         new
                         {
                             Id = 9,
-                            QuestionId = 4,
-                            Text = "Köpek"
+                            Label = "Köpek",
+                            QuestionId = 4
                         },
                         new
                         {
                             Id = 10,
-                            QuestionId = 4,
-                            Text = "Kuş"
+                            Label = "Kuş",
+                            QuestionId = 4
                         },
                         new
                         {
                             Id = 11,
-                            QuestionId = 8,
-                            Text = "Ankara"
+                            Label = "Ankara",
+                            QuestionId = 8
                         },
                         new
                         {
                             Id = 12,
-                            QuestionId = 8,
-                            Text = "İstanbul"
+                            Label = "İstanbul",
+                            QuestionId = 8
                         },
                         new
                         {
                             Id = 13,
-                            QuestionId = 8,
-                            Text = "İzmir"
+                            Label = "İzmir",
+                            QuestionId = 8
                         });
                 });
 
@@ -617,6 +644,25 @@ namespace survey_backend.data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("survey_backend.entity.Answer", b =>
+                {
+                    b.HasOne("survey_backend.entity.Question", "Question")
+                        .WithMany()
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("survey_backend.entity.Survey", "Survey")
+                        .WithMany()
+                        .HasForeignKey("SurveyId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Question");
+
+                    b.Navigation("Survey");
                 });
 
             modelBuilder.Entity("survey_backend.entity.Option", b =>

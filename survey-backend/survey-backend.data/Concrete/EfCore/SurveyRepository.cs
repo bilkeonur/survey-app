@@ -17,7 +17,11 @@ namespace survey_backend.data.Concrete.EfCore
 
         public new async Task<List<Survey>> GetAll()
         {
+            DateTime today = DateTime.Now.Date;
+
             var result = await _context.Set<Survey>()
+                .Where(d => d.StartDate <= today && d.EndDate >= today)
+                .Where(a => a.IsActive)
                 .Include(i=>i.Organization)
                 .ToListAsync();
             

@@ -39,7 +39,7 @@ namespace survey_backend.business.Concrete
 
         public async Task UpdateAsync(Option entityToUpdate, Option entity)
         {
-            entityToUpdate.Text = entity.Text;
+            entityToUpdate.Label = entity.Label;
             await _unitofwork.SaveAsync();
         }
 
@@ -53,7 +53,7 @@ namespace survey_backend.business.Concrete
         {
             var isValid = true;
 
-            if(string.IsNullOrEmpty(entity.Text))
+            if(string.IsNullOrEmpty(entity.Label))
             {
                 ErrorMessage += "Cevap Girmelisiniz\n";
                 isValid=false;

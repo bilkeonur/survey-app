@@ -238,13 +238,39 @@ namespace survey_backend.data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Answers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SurveyId = table.Column<int>(type: "int", nullable: false),
+                    QuestionId = table.Column<int>(type: "int", nullable: false),
+                    SelOptions = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Answers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Answers_Questions_QuestionId",
+                        column: x => x.QuestionId,
+                        principalTable: "Questions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Answers_Surveys_SurveyId",
+                        column: x => x.SurveyId,
+                        principalTable: "Surveys",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Options",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     QuestionId = table.Column<int>(type: "int", nullable: false),
-                    Text = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false)
+                    Label = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -303,23 +329,33 @@ namespace survey_backend.data.Migrations
 
             migrationBuilder.InsertData(
                 table: "Options",
-                columns: new[] { "Id", "QuestionId", "Text" },
+                columns: new[] { "Id", "Label", "QuestionId" },
                 values: new object[,]
                 {
-                    { 1, 1, "Evet" },
-                    { 2, 1, "Hayır" },
-                    { 3, 2, "Kadın" },
-                    { 4, 2, "Erkek" },
-                    { 5, 3, "Vahşi Batı" },
-                    { 6, 3, "Bilim Kurgu" },
-                    { 7, 3, "Komedi" },
-                    { 8, 4, "Kedi" },
-                    { 9, 4, "Köpek" },
-                    { 10, 4, "Kuş" },
-                    { 11, 8, "Ankara" },
-                    { 12, 8, "İstanbul" },
-                    { 13, 8, "İzmir" }
+                    { 1, "Evet", 1 },
+                    { 2, "Hayır", 1 },
+                    { 3, "Kadın", 2 },
+                    { 4, "Erkek", 2 },
+                    { 5, "Vahşi Batı", 3 },
+                    { 6, "Bilim Kurgu", 3 },
+                    { 7, "Komedi", 3 },
+                    { 8, "Kedi", 4 },
+                    { 9, "Köpek", 4 },
+                    { 10, "Kuş", 4 },
+                    { 11, "Ankara", 8 },
+                    { 12, "İstanbul", 8 },
+                    { 13, "İzmir", 8 }
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Answers_QuestionId",
+                table: "Answers",
+                column: "QuestionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Answers_SurveyId",
+                table: "Answers",
+                column: "SurveyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -384,6 +420,9 @@ namespace survey_backend.data.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Answers");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 

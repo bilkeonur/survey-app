@@ -1,15 +1,20 @@
 import { useState, useEffect } from 'react';
 import { IconButton, Button, Typography, Card, CardHeader, CardBody, Avatar} from "@material-tailwind/react";
-import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 import { NavLink, useNavigate } from "react-router-dom";
 import { baseUrl } from "@/constant";
 
 export function AnswerTypeManagement() {
+
+  const navigate = useNavigate();
   
   const [answerTypes, setAnswerTypes] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    getAnswerTypes();
+  }, []);
+
+  const getAnswerTypes = (id) => {
     setLoading(true)
     fetch(baseUrl + 'answertypes/get', {
       method: 'GET',
@@ -22,7 +27,24 @@ export function AnswerTypeManagement() {
     .then((res) => {return res.json()})
     .then((data) => {setAnswerTypes(data)})
     .finally(() => {setLoading(false)})
-  }, []);
+  }; 
+
+  const editAnswerType = (id) => {
+    navigate('/manage/createanswertype', { state: { answerType: answerTypes[id] }});
+  };
+
+  const deleteAnswerType = (id) => {
+    fetch(baseUrl + `answertypes/delete/${answerTypes[id].id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem("accessToken")}`
+      }
+    })
+    .then((res) => { 
+      getAnswerTypes();
+    })
+    .catch(error => {console.log(error)});
+  };
 
   return (
     <div className="mt-12 mb-8 flex flex-col gap-12">
@@ -80,11 +102,23 @@ export function AnswerTypeManagement() {
                             </td>
                             <td width='5%' className={className}>
                               <div className="flex items-center gap-4">
-                                <IconButton onClick={() => editCompany(key)} size="md" color="blue" variant="outlined" className="m-2">
-                                  <i className="fa-solid fa-pen-to-square fa-md" />
+                                <IconButton 
+                                  title="Düzenle"
+                                  onClick={() => editAnswerType(key)} 
+                                  size="md" 
+                                  color="blue"
+                                  variant="outlined" 
+                                  className="m-2">
+                                    <i className="fa-solid fa-pen-to-square fa-md" />
                                 </IconButton>
-                                <IconButton onClick={() => deleteCompany(key)} size="md" color="red" variant="outlined" className="m-2">
-                                  <i className="fa-solid fa-trash fa-md" />
+                                <IconButton 
+                                  title="Sil"
+                                  onClick={() => deleteAnswerType(key)} 
+                                  size="md" 
+                                  color="red" 
+                                  variant="outlined" 
+                                  className="m-2">
+                                    <i className="fa-solid fa-trash fa-md" />
                                 </IconButton>
                               </div>
                             </td>

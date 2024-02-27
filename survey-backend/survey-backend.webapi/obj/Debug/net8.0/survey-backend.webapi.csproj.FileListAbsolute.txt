@@ -40,6 +40,9 @@ C:\Users\onurb\OneDrive\Desktop\survey-app\survey-backend\survey-backend.webapi\
 C:\Users\onurb\OneDrive\Desktop\survey-app\survey-backend\survey-backend.webapi\bin\Debug\net8.0\Microsoft.Win32.SystemEvents.dll
 C:\Users\onurb\OneDrive\Desktop\survey-app\survey-backend\survey-backend.webapi\bin\Debug\net8.0\Mono.TextTemplating.dll
 C:\Users\onurb\OneDrive\Desktop\survey-app\survey-backend\survey-backend.webapi\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\onurb\OneDrive\Desktop\survey-app\survey-backend\survey-backend.webapi\bin\Debug\net8.0\Scrutor.dll
+C:\Users\onurb\OneDrive\Desktop\survey-app\survey-backend\survey-backend.webapi\bin\Debug\net8.0\Swashbuckle.AspNetCore.Filters.dll
+C:\Users\onurb\OneDrive\Desktop\survey-app\survey-backend\survey-backend.webapi\bin\Debug\net8.0\Swashbuckle.AspNetCore.Filters.Abstractions.dll
 C:\Users\onurb\OneDrive\Desktop\survey-app\survey-backend\survey-backend.webapi\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Users\onurb\OneDrive\Desktop\survey-app\survey-backend\survey-backend.webapi\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\onurb\OneDrive\Desktop\survey-app\survey-backend\survey-backend.webapi\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
@@ -149,6 +152,3 @@ C:\Users\onurb\OneDrive\Desktop\survey-app\survey-backend\survey-backend.webapi\
 C:\Users\onurb\OneDrive\Desktop\survey-app\survey-backend\survey-backend.webapi\obj\Debug\net8.0\survey-backend.webapi.pdb
 C:\Users\onurb\OneDrive\Desktop\survey-app\survey-backend\survey-backend.webapi\obj\Debug\net8.0\survey-backend.webapi.genruntimeconfig.cache
 C:\Users\onurb\OneDrive\Desktop\survey-app\survey-backend\survey-backend.webapi\obj\Debug\net8.0\ref\survey-backend.webapi.dll
-C:\Users\onurb\OneDrive\Desktop\survey-app\survey-backend\survey-backend.webapi\bin\Debug\net8.0\Scrutor.dll
-C:\Users\onurb\OneDrive\Desktop\survey-app\survey-backend\survey-backend.webapi\bin\Debug\net8.0\Swashbuckle.AspNetCore.Filters.dll
-C:\Users\onurb\OneDrive\Desktop\survey-app\survey-backend\survey-backend.webapi\bin\Debug\net8.0\Swashbuckle.AspNetCore.Filters.Abstractions.dll

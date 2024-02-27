@@ -13,6 +13,7 @@ namespace survey_backend.data.Concrete.EfCore
             
         }
 
+        public DbSet<Answer> Answers { get;set; }
         public DbSet<AnswerType> AnswerTypes { get;set; }
         public DbSet<Organization> Organizations { get;set; }
         public DbSet<Question> Questions { get;set; }
@@ -22,6 +23,13 @@ namespace survey_backend.data.Concrete.EfCore
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            
+            modelBuilder.Entity<Answer>()
+                .HasOne(e => e.Survey)
+                .WithMany()
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.ApplyConfiguration(new AnswerConfigurations());
             modelBuilder.ApplyConfiguration(new AnswerTypeConfigurations());
             modelBuilder.ApplyConfiguration(new OrganizationConfigurations());
             modelBuilder.ApplyConfiguration(new QuestionConfigurations());

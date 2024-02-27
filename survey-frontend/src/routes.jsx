@@ -4,6 +4,8 @@ import { AnswerTypeManagement, CreateOrganization, OrganizationManagement, Surve
 import { SignIn, SignUp } from "@/pages/auth";
 import Authorization from "@/provider/Authorization";
 import Permissions from "@/provider/Permissions";
+import CreateAnswerType from "./pages/manage/CreateAnswerType";
+import CreateSurvey from "./pages/manage/CreateSurvey";
   
 const icon = {
     className: "w-5 h-5 text-inherit",
@@ -81,11 +83,25 @@ export const routes = [
           element: <Authorization element={<AnswerTypeManagement/>} permissions={[Permissions.ANSWER_TYPE_MANAGEMENT]}/>
         },
         {
+          icon: <ListBulletIcon {...icon} />,
+          name: "Cevap Tipi Ekle",
+          path: "/createanswertype",
+          active: false,
+          element: <Authorization element={<CreateAnswerType/>} permissions={[Permissions.CREATE_ANSWER_TYPE]}/>
+        },
+        {
           icon: <ClipboardDocumentListIcon {...icon} />,
           name: "Anket Yönetimi",
           path: "/surveymanagement",
           active: true,
           element: <Authorization element={<SurveyManagement/>} permissions={[Permissions.SURVEY_MANAGEMENT]}/>
+        },
+        {
+          icon: <ClipboardDocumentListIcon {...icon} />,
+          name: "Anket Ekle",
+          path: "/createsurvey",
+          active: false,
+          element: <Authorization element={<CreateSurvey/>} permissions={[Permissions.CREATE_SURVEY]}/>
         }
       ]
     }

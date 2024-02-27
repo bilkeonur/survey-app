@@ -29,7 +29,7 @@ namespace survey_backend.data.Concrete.EfCore
                     Options = q.Options.Select(o => new Option {
                         Id = o.Id,
                         QuestionId = o.QuestionId,
-                        Text = o.Text
+                        Label = o.Label
                     }).ToList()
                 })
                 .ToListAsync();

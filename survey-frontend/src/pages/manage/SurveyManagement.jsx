@@ -20,6 +20,27 @@ export function SurveyManagement() {
       .finally(() => {setLoading(false)})
   };
 
+  const addQuestions = (id) => {
+    
+  };
+
+  const editSurvey = (id) => {
+    
+  };
+
+  const deleteSurvey = (id) => {
+    fetch(baseUrl + `surveys/delete/${surveys[id].id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem("accessToken")}`
+      }
+    })
+    .then((res) => { 
+      getSurveys();
+    })
+    .catch(error => {console.log(error)});
+  };
+
   return (
     <div className="mt-12 mb-8 flex flex-col gap-12">
       {loading ? (
@@ -33,7 +54,7 @@ export function SurveyManagement() {
               </Typography>
             </CardHeader>
             <CardBody className="overflow-x-scroll px-0 pt-0 pb-2">
-              <NavLink to={'/manage/createorganization'}>
+              <NavLink to={'/manage/createsurvey'}>
                 <Button className="ml-4" color="amber">Anket Ekle</Button>
               </NavLink>
               <table className="w-full min-w-[640px] table-auto">
@@ -101,11 +122,32 @@ export function SurveyManagement() {
                             </td>
                             <td width='5%' className={className}>
                               <div className="flex items-center gap-4">
-                                <IconButton onClick={() => editSurvey(key)} size="md" color="blue" variant="outlined" className="m-2">
-                                  <i className="fa-solid fa-pen-to-square fa-md" />
+                                <IconButton
+                                  title="Soru Ekle" 
+                                  onClick={() => addQuestions(key)} 
+                                  size="md" 
+                                  color="blue" 
+                                  variant="outlined" 
+                                  className="m-2">
+                                    <i className="fa-solid fa-circle-question fa-md" />
                                 </IconButton>
-                                <IconButton onClick={() => deleteSurvey(key)} size="md" color="red" variant="outlined" className="m-2">
-                                  <i className="fa-solid fa-trash fa-md" />
+                                <IconButton 
+                                  title="Düzenle"
+                                  onClick={() => editSurvey(key)} 
+                                  size="md" 
+                                  color="blue" 
+                                  variant="outlined"
+                                  className="m-2">
+                                    <i className="fa-solid fa-pen-to-square fa-md" />
+                                </IconButton>
+                                <IconButton 
+                                  title="Sil"
+                                  onClick={() => deleteSurvey(key)}
+                                  size="md" 
+                                  color="red" 
+                                  variant="outlined"
+                                  className="m-2">
+                                    <i className="fa-solid fa-trash fa-md" />
                                 </IconButton>
                               </div>
                             </td>

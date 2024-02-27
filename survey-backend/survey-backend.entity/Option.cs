@@ -8,10 +8,10 @@ namespace survey_backend.entity
     
         [Required]
         public int QuestionId { get; set; }
-        public virtual Question Question { get; set; }
+        public virtual Question? Question { get; set; }
 
         [Required]
         [MaxLength(80)]
-        public string Text { get; set; } = string.Empty;
+        public string Label { get; set; } = string.Empty;
     }
 }

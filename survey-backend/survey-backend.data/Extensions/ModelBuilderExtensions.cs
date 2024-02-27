@@ -132,68 +132,68 @@ namespace survey_backend.data.Extensions
                 new Option() {
                     Id = 1,
                     QuestionId = 1,
-                    Text = "Evet"
+                    Label = "Evet"
                 },
                 new Option() {
                     Id = 2,
                     QuestionId = 1,
-                    Text = "Hayır"
+                    Label = "Hayır"
                 },
                 new Option() {
                     Id = 3,
                     QuestionId = 2,
-                    Text = "Kadın"
+                    Label = "Kadın"
                 },
                 new Option() {
                     Id = 4,
                     QuestionId = 2,
-                    Text = "Erkek"
+                    Label = "Erkek"
                 },
                 new Option() {
                     Id = 5,
                     QuestionId = 3,
-                    Text = "Vahşi Batı"
+                    Label = "Vahşi Batı"
                 },
                 new Option() {
                     Id = 6,
                     QuestionId = 3,
-                    Text = "Bilim Kurgu"
+                    Label = "Bilim Kurgu"
                 },
                 new Option() {
                     Id = 7,
                     QuestionId = 3,
-                    Text = "Komedi"
+                    Label = "Komedi"
                 },
                 new Option() {
                     Id = 8,
                     QuestionId = 4,
-                    Text = "Kedi"
+                    Label = "Kedi"
                 },
                 new Option() {
                     Id = 9,
                     QuestionId = 4,
-                    Text = "Köpek"
+                    Label = "Köpek"
                 },
                 new Option() {
                     Id = 10,
                     QuestionId = 4,
-                    Text = "Kuş"
+                    Label = "Kuş"
                 },
                 new Option() {
                     Id = 11,
                     QuestionId = 8,
-                    Text = "Ankara"
+                    Label = "Ankara"
                 },
                 new Option() {
                     Id = 12,
                     QuestionId = 8,
-                    Text = "İstanbul"
+                    Label = "İstanbul"
                 }
                 ,
                 new Option() {
                     Id = 13,
                     QuestionId = 8,
-                    Text = "İzmir"
+                    Label = "İzmir"
                 }
             };
 

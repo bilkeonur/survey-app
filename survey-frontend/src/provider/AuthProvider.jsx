@@ -13,9 +13,11 @@ export const AuthProvider = ({ children }) => {
   const login = (token) => {
     setLoginData({ token: token, 
       permissions: [
+        "CreateAnswerType",
         "AnswerTypeManagement", 
         "CreateOrganization", 
         "OrganizationManagement",
+        "CreateSurvey",
         "SurveyManagement"]});
     localStorage.setItem('accessToken', token.accessToken);
     localStorage.setItem('refreshToken', token.refreshToken);

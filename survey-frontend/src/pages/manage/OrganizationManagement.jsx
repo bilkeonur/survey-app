@@ -12,10 +12,10 @@ export function OrganizationManagement() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    getCompanies();
+    getOrganizations();
   }, []);
 
-  const getCompanies = (id) => {
+  const getOrganizations = () => {
     setLoading(true)
     fetch(baseUrl + 'organizations/get', {
       method: 'GET',
@@ -103,11 +103,23 @@ export function OrganizationManagement() {
                             </td>
                             <td width='5%' className={className}>
                               <div className="flex items-center gap-4">
-                                <IconButton onClick={() => editCompany(key)} size="md" color="blue" variant="outlined" className="m-2">
-                                  <i className="fa-solid fa-pen-to-square fa-md" />
+                                <IconButton 
+                                  title="Düzenle"
+                                  onClick={() => editCompany(key)} 
+                                  size="md" 
+                                  color="blue"
+                                  variant="outlined" 
+                                  className="m-2">
+                                    <i className="fa-solid fa-pen-to-square fa-md" />
                                 </IconButton>
-                                <IconButton onClick={() => deleteCompany(key)} size="md" color="red" variant="outlined" className="m-2">
-                                  <i className="fa-solid fa-trash fa-md" />
+                                <IconButton
+                                  title="Sil"
+                                  onClick={() => deleteCompany(key)} 
+                                  size="md"
+                                  color="red"
+                                  variant="outlined" 
+                                  className="m-2">
+                                    <i className="fa-solid fa-trash fa-md" />
                                 </IconButton>
                               </div>
                             </td>

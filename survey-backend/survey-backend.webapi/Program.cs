@@ -34,6 +34,7 @@ builder.Services.AddIdentityApiEndpoints<IdentityUser>()
 
 builder.Services.AddAutoMapper(typeof(SurveyMapperConfig));
 builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
+builder.Services.AddScoped<IAnswerService,AnswerManager>();
 builder.Services.AddScoped<IAnswerTypeService,AnswerTypeManager>();
 builder.Services.AddScoped<IOrganizationService,OrganizationManager>();
 builder.Services.AddScoped<IQuestionService,QuestionManager>();
