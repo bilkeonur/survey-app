@@ -1,5 +1,4 @@
 import { Card,CardHeader,CardBody,Typography,Avatar } from "@material-tailwind/react";
-import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { baseUrl } from "@/constant";
@@ -63,7 +62,7 @@ export function Survey() {
                 </thead>
                     <tbody>
                     {surveys.map(
-                      ({ id, title, organization, startDate, endDate }, key) => {
+                      ({ id, title, organizationLabel, startDate, endDate }, key) => {
                         const className = `py-3 px-5 ${
                           key === surveys.length - 1
                             ? ""
@@ -88,7 +87,7 @@ export function Survey() {
                                 <Typography
                                   variant="small"
                                   className="text-xs font-medium text-blue-gray-600">
-                                  {organization}
+                                  {organizationLabel}
                                 </Typography>
                               </div>
                             </td>

@@ -8,7 +8,7 @@ export function CreateAnswerType() {
   
   const location = useLocation();
   const navigate = useNavigate();
-  const inputRef = useRef(null);
+  const inputRef = useRef();
 
   const [formMode, setFormMode] = useState();
   const [formData, setFormData] = useState({answerTypeName: ""});
@@ -47,7 +47,7 @@ export function CreateAnswerType() {
         'Accept': 'application/json',
         'Content-Type':'application/json'
       },
-      body: JSON.stringify({name: formData.answerTypeName})
+      body: JSON.stringify({label: formData.answerTypeName})
     })
     .then((res) => { 
       if(res.status == 201) { navigate('/manage/answertypemanagement')}
@@ -65,7 +65,7 @@ export function CreateAnswerType() {
         'Accept': 'application/json',
         'Content-Type':'application/json'
       },
-      body: JSON.stringify({id: id, name: formData.answerTypeName})
+      body: JSON.stringify({id: id, label: formData.answerTypeName})
     })
     .then((res) => { navigate('/manage/answertypemanagement')})
     .catch(error => {alert("Hata Oluştu : " + error.inner)});
@@ -112,7 +112,7 @@ export function CreateAnswerType() {
                   icon={<i className="fa-solid fa-building"/>}
                   required
                   onChange={handleChange}
-                  defaultValue = {answerType.name}
+                  defaultValue = {answerType.label}
                   autoFocus />
                   {errors.answerTypeName &&
                     <Typography

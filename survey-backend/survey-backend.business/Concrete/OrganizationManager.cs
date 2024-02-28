@@ -34,7 +34,7 @@ namespace survey_backend.business.Concrete
 
         public async Task UpdateAsync(Organization entityToUpdate, Organization entity)
         {
-            entityToUpdate.Name = entity.Name;
+            entityToUpdate.Label = entity.Label;
             await _unitofwork.SaveAsync();
         }
 
@@ -48,7 +48,7 @@ namespace survey_backend.business.Concrete
         {
             var isValid = true;
 
-            if(string.IsNullOrEmpty(entity.Name))
+            if(string.IsNullOrEmpty(entity.Label))
             {
                 ErrorMessage += "Organizasyon Adı Girmelisiniz\n";
                 isValid=false;

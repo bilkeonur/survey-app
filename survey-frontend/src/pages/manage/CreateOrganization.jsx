@@ -8,7 +8,7 @@ export function CreateOrganization() {
   
   const location = useLocation();
   const navigate = useNavigate();
-  const inputRef = useRef(null);
+  const inputRef = useRef();
 
   const [formMode, setFormMode] = useState();
   const [formData, setFormData] = useState({companyName: ""});
@@ -47,7 +47,7 @@ export function CreateOrganization() {
         'Accept': 'application/json',
         'Content-Type':'application/json'
       },
-      body: JSON.stringify({name: formData.companyName})
+      body: JSON.stringify({label: formData.companyName})
     })
     .then((res) => { 
       if(res.status == 201) { navigate('/manage/organizationmanagement')}
@@ -65,7 +65,7 @@ export function CreateOrganization() {
         'Accept': 'application/json',
         'Content-Type':'application/json'
       },
-      body: JSON.stringify({id: id, name: formData.companyName})
+      body: JSON.stringify({id: id, label: formData.companyName})
     })
     .then((res) => { navigate('/manage/organizationmanagement')})
     .catch(error => {alert("Hata Oluştu : " + error.inner)});
@@ -112,7 +112,7 @@ export function CreateOrganization() {
                   icon={<i className="fa-solid fa-building"/>}
                   required
                   onChange={handleChange}
-                  defaultValue = {organization.name}
+                  defaultValue = {organization.label}
                   autoFocus />
                   {errors.companyName &&
                     <Typography

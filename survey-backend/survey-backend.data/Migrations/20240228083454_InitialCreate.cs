@@ -19,7 +19,7 @@ namespace survey_backend.data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false)
+                    Label = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -71,7 +71,7 @@ namespace survey_backend.data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false)
+                    Label = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -285,7 +285,7 @@ namespace survey_backend.data.Migrations
 
             migrationBuilder.InsertData(
                 table: "AnswerTypes",
-                columns: new[] { "Id", "Name" },
+                columns: new[] { "Id", "Label" },
                 values: new object[,]
                 {
                     { 1, "Çoktan Tekli Seçmeli" },
@@ -296,7 +296,7 @@ namespace survey_backend.data.Migrations
 
             migrationBuilder.InsertData(
                 table: "Organizations",
-                columns: new[] { "Id", "Name" },
+                columns: new[] { "Id", "Label" },
                 values: new object[,]
                 {
                     { 1, "Test Şirket 1" },
@@ -308,8 +308,8 @@ namespace survey_backend.data.Migrations
                 columns: new[] { "Id", "EndDate", "IsActive", "OrganizationId", "StartDate", "Title" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), true, 1, new DateTime(2024, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "Genel Anket 1" },
-                    { 2, new DateTime(2024, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), true, 2, new DateTime(2024, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "Genel Anket 2" }
+                    { 1, new DateTime(2024, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), true, 1, new DateTime(2024, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "Genel Anket 1" },
+                    { 2, new DateTime(2024, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), true, 2, new DateTime(2024, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "Genel Anket 2" }
                 });
 
             migrationBuilder.InsertData(

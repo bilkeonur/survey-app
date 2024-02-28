@@ -12,7 +12,7 @@ using survey_backend.data.Concrete.EfCore;
 namespace survey_backend.data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240227065827_InitialCreate")]
+    [Migration("20240228083454_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -258,7 +258,7 @@ namespace survey_backend.data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Label")
                         .IsRequired()
                         .HasMaxLength(80)
                         .HasColumnType("nvarchar(80)");
@@ -271,22 +271,22 @@ namespace survey_backend.data.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "Çoktan Tekli Seçmeli"
+                            Label = "Çoktan Tekli Seçmeli"
                         },
                         new
                         {
                             Id = 2,
-                            Name = "Çoktan Çoklu Seçmeli"
+                            Label = "Çoktan Çoklu Seçmeli"
                         },
                         new
                         {
                             Id = 3,
-                            Name = "Yazarak Yanıt Verilen"
+                            Label = "Yazarak Yanıt Verilen"
                         },
                         new
                         {
                             Id = 4,
-                            Name = "Listeden Tek Seçilen"
+                            Label = "Listeden Tek Seçilen"
                         });
                 });
 
@@ -401,7 +401,7 @@ namespace survey_backend.data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Label")
                         .IsRequired()
                         .HasMaxLength(80)
                         .HasColumnType("nvarchar(80)");
@@ -414,12 +414,12 @@ namespace survey_backend.data.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "Test Şirket 1"
+                            Label = "Test Şirket 1"
                         },
                         new
                         {
                             Id = 2,
-                            Name = "Test Şirket 2"
+                            Label = "Test Şirket 2"
                         });
                 });
 
@@ -578,7 +578,7 @@ namespace survey_backend.data.Migrations
                         new
                         {
                             Id = 1,
-                            EndDate = new DateTime(2024, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EndDate = new DateTime(2024, 3, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true,
                             OrganizationId = 1,
                             StartDate = new DateTime(2024, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -587,7 +587,7 @@ namespace survey_backend.data.Migrations
                         new
                         {
                             Id = 2,
-                            EndDate = new DateTime(2024, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EndDate = new DateTime(2024, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true,
                             OrganizationId = 2,
                             StartDate = new DateTime(2024, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),

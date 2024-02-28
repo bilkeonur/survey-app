@@ -83,7 +83,7 @@ export function OrganizationManagement() {
                 </thead>
                     <tbody>
                     {organizations.map(
-                      ({ id, name }, key) => {
+                      ({ id, label }, key) => {
                         const className = `py-3 px-5 ${
                           key === organizations.length - 1
                             ? ""
@@ -97,7 +97,7 @@ export function OrganizationManagement() {
                                   variant="small"
                                   color="blue-gray"
                                   className="font-bold">
-                                  {name}
+                                  {label}
                                 </Typography>
                               </div>
                             </td>

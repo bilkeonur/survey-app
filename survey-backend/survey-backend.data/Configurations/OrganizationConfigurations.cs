@@ -8,7 +8,7 @@ namespace survey_backend.data.Configurations
     {
         public void Configure(EntityTypeBuilder<Organization> builder)
         {
-            builder.Property(m=>m.Name).IsRequired().HasMaxLength(80);
+            builder.Property(m=>m.Label).IsRequired().HasMaxLength(80);
         }
     }
 }

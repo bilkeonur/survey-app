@@ -9,7 +9,8 @@ namespace survey_backend.business.Configurations
         public SurveyMapperConfig()
         {
             CreateMap<Survey, SurveyDTO>()
-                .ForMember(x => x.Organization, opt => opt.MapFrom(o => o.Organization!.Name))
+                .ForMember(x => x.OrganizationId, opt => opt.MapFrom(o => o.Organization!.Id))
+                .ForMember(x => x.OrganizationLabel, opt => opt.MapFrom(o => o.Organization!.Label))
                 .ForMember(x => x.StartDate, opt => opt.MapFrom( o => o.StartDate.ToString("dd.MM.yyyy")))
                 .ForMember(x => x.EndDate, opt => opt.MapFrom( o => o.EndDate.ToString("dd.MM.yyyy")));
 

@@ -4,7 +4,8 @@ const Permissions = {
   CREATE_ORGANIZATION: "CreateOrganization",
   ORGANIZATION_MANAGEMENT: "OrganizationManagement",
   CREATE_SURVEY: "CreateSurvey",
-  SURVEY_MANAGEMENT: "SurveyManagement"
+  SURVEY_MANAGEMENT: "SurveyManagement",
+  CREATE_QUESTIONS: "CreateQuestions",
 };
 
 export default Permissions;

@@ -5,6 +5,8 @@ import { baseUrl } from "@/constant";
 
 export function SurveyManagement() {
   
+  const navigate = useNavigate();
+  
   const [surveys, setSurveys] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -20,12 +22,12 @@ export function SurveyManagement() {
       .finally(() => {setLoading(false)})
   };
 
-  const addQuestions = (id) => {
-    
-  };
+  const createQuestions = (id) => {
+    navigate('/manage/createquestions', { state: { survey: surveys[id] }});
+  }
 
   const editSurvey = (id) => {
-    
+    navigate('/manage/createsurvey', { state: { survey: surveys[id] }});
   };
 
   const deleteSurvey = (id) => {
@@ -77,7 +79,7 @@ export function SurveyManagement() {
                 </thead>
                     <tbody>
                     {surveys.map(
-                      ({ id, title, organization, startDate, endDate }, key) => {
+                      ({ id, title, organizationLabel, startDate, endDate }, key) => {
                         const className = `py-3 px-5 ${
                           key === surveys.length - 1
                             ? ""
@@ -85,7 +87,7 @@ export function SurveyManagement() {
                         }`;
 
                         return (
-                          <tr key={title} onClick={() => setRowId(id)} className="hover:cursor-pointer opacity-100 transition-all hover:text-blue-500 hover:opacity-50">
+                          <tr key={title} className="hover:cursor-pointer opacity-100 transition-all hover:text-blue-500 hover:opacity-50">
                             <td width='50%' className={className}>
                               <div className="flex items-center gap-4">
                                 <Avatar src={"/img/survey.svg"} alt={title} size="sm" />
@@ -102,7 +104,7 @@ export function SurveyManagement() {
                                 <Typography
                                   variant="small"
                                   className="text-xs font-medium text-blue-gray-600">
-                                  {organization}
+                                  {organizationLabel}
                                 </Typography>
                               </div>
                             </td>
@@ -124,7 +126,7 @@ export function SurveyManagement() {
                               <div className="flex items-center gap-4">
                                 <IconButton
                                   title="Soru Ekle" 
-                                  onClick={() => addQuestions(key)} 
+                                  onClick={() => createQuestions(key)}
                                   size="md" 
                                   color="blue" 
                                   variant="outlined" 

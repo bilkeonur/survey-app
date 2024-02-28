@@ -1,12 +1,12 @@
 import { HomeIcon, ListBulletIcon, ChatBubbleBottomCenterTextIcon, BuildingOfficeIcon, ServerStackIcon, RectangleStackIcon, ClipboardDocumentListIcon } from "@heroicons/react/24/solid";
 import { Home, Survey, Question } from "@/pages/dashboard";
-import { AnswerTypeManagement, CreateOrganization, OrganizationManagement, SurveyManagement } from "@/pages/manage";
+import { AnswerTypeManagement, CreateQuestions, CreateOrganization, OrganizationManagement, SurveyManagement } from "@/pages/manage";
 import { SignIn, SignUp } from "@/pages/auth";
 import Authorization from "@/provider/Authorization";
 import Permissions from "@/provider/Permissions";
 import CreateAnswerType from "./pages/manage/CreateAnswerType";
 import CreateSurvey from "./pages/manage/CreateSurvey";
-  
+
 const icon = {
     className: "w-5 h-5 text-inherit",
 };
@@ -94,14 +94,21 @@ export const routes = [
           name: "Anket Yönetimi",
           path: "/surveymanagement",
           active: true,
-          element: <Authorization element={<SurveyManagement/>} permissions={[Permissions.SURVEY_MANAGEMENT]}/>
+          element: <SurveyManagement/>
         },
         {
           icon: <ClipboardDocumentListIcon {...icon} />,
           name: "Anket Ekle",
           path: "/createsurvey",
           active: false,
-          element: <Authorization element={<CreateSurvey/>} permissions={[Permissions.CREATE_SURVEY]}/>
+          element: <CreateSurvey/>
+        },
+        {
+          icon: <ClipboardDocumentListIcon {...icon} />,
+          name: "Soru Ekle",
+          path: "/createquestions",
+          active: false,
+          element: <CreateQuestions/>
         }
       ]
     }

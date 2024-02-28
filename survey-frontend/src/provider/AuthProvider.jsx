@@ -18,7 +18,8 @@ export const AuthProvider = ({ children }) => {
         "CreateOrganization", 
         "OrganizationManagement",
         "CreateSurvey",
-        "SurveyManagement"]});
+        "SurveyManagement",
+        "CreateQuestions"]});
     localStorage.setItem('accessToken', token.accessToken);
     localStorage.setItem('refreshToken', token.refreshToken);
     navigate(redirectPath, { replace: true });

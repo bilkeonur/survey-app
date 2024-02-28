@@ -82,7 +82,7 @@ export function AnswerTypeManagement() {
                 </thead>
                     <tbody>
                     {answerTypes.map(
-                      ({ id, name }, key) => {
+                      ({ id, label }, key) => {
                         const className = `py-3 px-5 ${
                           key === answerTypes.length - 1
                             ? ""
@@ -96,7 +96,7 @@ export function AnswerTypeManagement() {
                                   variant="small"
                                   color="blue-gray"
                                   className="font-bold">
-                                  {name}
+                                  {label}
                                 </Typography>
                               </div>
                             </td>

@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
+import Select from "react-select"
 import { object, string} from 'yup';
 import { useNavigate, useLocation } from "react-router-dom"
-import { Checkbox, Select, Option, Input, Button, Typography, Card, CardHeader, CardBody, Popover, PopoverHandler, PopoverContent} from "@material-tailwind/react";
+import { Checkbox, Input, Button, Typography, Card, CardHeader, CardBody, Popover, PopoverHandler, PopoverContent} from "@material-tailwind/react";
 import { format } from "date-fns";
 import { DayPicker } from "react-day-picker";
 import { ChevronRightIcon, ChevronLeftIcon } from "@heroicons/react/24/outline";
@@ -11,23 +12,32 @@ export function CreateSurvey() {
   
   const location = useLocation();
   const navigate = useNavigate();
-  const inputRef = useRef(null);
+  const inputRef = useRef();
 
   const [formMode, setFormMode] = useState();
-  const [formData, setFormData] = useState();
+  const [formData, setFormData] = useState({organizationId: 0, title: "", startDate: "", endDate: "", isActive: true});
   const [errors, setErrors] = useState({});
-  const [organizations, setOrganizations] = useState([]);
+  const [organizations, setOrganizations] = useState();
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
 
   useEffect(() => {
+    getOrganizations();
+
     if(location.state != null) {
       setFormMode(1);
+
+      let survey = location.state.survey;
+      let [startDay, startMonth, startYear] = survey.startDate.split('.');
+      let [endDay, endMonth, endYear] = survey.endDate.split('.');
+      const startDate = new Date(+startYear, +startMonth - 1, +startDay);
+      const endDate = new Date(+endYear, +endMonth - 1, +endDay);
+      setFormData({id:survey.id, organizationId: survey.organizationId, title: survey.title, startDate: startDate, endDate: endDate, isActive: survey.isActive});
     }
     else {
       setFormMode(0);
     }
-    getOrganizations();
+
     inputRef.current.focus();
   }, []);
 
@@ -45,7 +55,10 @@ export function CreateSurvey() {
   }; 
 
   const validationSchema = object({
-    
+    title: string()
+      .required("Anket Başlığı Girmelisiniz")
+      .min(3,"Anket Başlığı Minimum 3 Karakter Olmalıdır")
+      .max(150,"Anket Başlığı Maximum 150 Karakter Olmalıdır")
   });
 
   const handleChange = (e) => {
@@ -53,26 +66,51 @@ export function CreateSurvey() {
     setFormData({...formData, [name]: value});
   };
 
-  const createSurvey = () => {
-
+  const createSurvey = () => {    
+    let reqData = JSON.stringify(formData,["organizationId","title","startDate","endDate","isActive"]);
+    fetch(baseUrl + 'surveys/create', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem("accessToken")}`,
+        'Accept': 'application/json',
+        'Content-Type':'application/json'
+      },
+      body: reqData
+    })
+    .then((res) => { 
+      if(res.status == 201) { navigate('/manage/surveymanagement')}
+      else {alert("Hata Oluştu")}
+    })
+    .catch(error => {alert("Hata Oluştu : " + error.inner)});
   };
 
   const updateSurvey = (id) => {
-    
+    let reqData = JSON.stringify(formData,["id","organizationId","title","startDate","endDate","isActive"]);
+    console.log(reqData);
+    fetch(baseUrl + `surveys/update/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem("accessToken")}`,
+        'Accept': 'application/json',
+        'Content-Type':'application/json'
+      },
+      body: reqData
+    })
+    .then((res) => { navigate('/manage/surveymanagement')})
+    .catch(error => {alert("Hata Oluştu : " + error.inner)});
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors("");
-    
     try {
       await validationSchema.validate(formData, {abortEarly: false});
-      if(formMode == 0) {}
-      else {}
+      if(formMode == 0) {createSurvey()}
+      else {updateSurvey(location.state.survey.id)}
     } 
     catch (error) {
       const newErrors = {};
-
+      console.log(error);
       error.inner.forEach((er) =>{
         newErrors[er.path] = er.message;
       });
@@ -92,18 +130,16 @@ export function CreateSurvey() {
           <form onSubmit={handleSubmit} className="mt-8 mb-2 mx-auto w-80 max-w-screen-lg lg:w-1/2">
             <div className="mb-1 flex flex-col gap-6">
               <div className="mt-1">
-                <Select 
-                  ref={inputRef}
-                  label="Şirket Seçiniz" 
-                  color="blue">
-                  {organizations && organizations.map((organization) => {
-                    return (
-                      <Option>
-                          {organization.name}
-                      </Option>
-                    );
-                  })};
-                </Select>
+              <Select
+                ref={inputRef}
+                name="organizationId"
+                placeholder="Şirket Seçiniz"
+                required
+                color="blue"
+                defaultValue = {location.state && {label:location.state.survey.organizationLabel}}
+                onChange={(e) => handleChange({target:{name:"organizationId", value:e.id}})}
+                autoFocus
+                options={organizations}/> 
               </div>
               <div className="mt-1">
                 <Input
@@ -113,17 +149,16 @@ export function CreateSurvey() {
                   size="lg"
                   placeholder="Anket Adı Giriniz"
                   icon={<i className="fa-solid fa-building"/>}
+                  defaultValue = {location.state ? location.state.survey.title : ""}
                   required
-                  onChange={handleChange}
-                  defaultValue = ""
-                  autoFocus />
-                  {errors.answerTypeName &&
+                  onChange={handleChange}/>
+                  {errors.title &&
                     <Typography
                       variant="small"
                       color="gray"
                       className="mt-2 flex items-center gap-1 font-normal">
                       <i className="fa-solid fa-circle-info"></i>
-                      {errors.answerTypeName}
+                      {errors.title}
                     </Typography>
                   }
               </div>
@@ -131,16 +166,21 @@ export function CreateSurvey() {
                 <Popover placement="bottom">
                   <PopoverHandler>
                   <Input
+                    name="startDate"
                     label="Başlangıç Tarihi Seçiniz"
                     color="blue" 
+                    required
                     onChange={() => null}
-                    value={startDate ? format(startDate, "dd/MM/yyyy") : ""}/>
+                    value={startDate ? format(startDate, "dd.MM.yyyy") : location.state ? location.state.survey.startDate : ""}/>
                 </PopoverHandler>
                 <PopoverContent>
                   <DayPicker
                     mode="single"
                     selected={startDate}
-                    onSelect={setStartDate}
+                    onSelect={(e) => {
+                      handleChange({target:{name:"startDate", value:e}});
+                      setStartDate(e)
+                    }}
                     showOutsideDays
                     className="border-0"
                     classNames={{
@@ -178,16 +218,21 @@ export function CreateSurvey() {
                 <Popover placement="bottom">
                   <PopoverHandler>
                   <Input
+                    name="endDate"
                     label="Bitiş Tarihi Seçiniz"
                     color="blue"
+                    required
                     onChange={() => null}
-                    value={endDate ? format(endDate, "dd/MM/yyyy") : ""}/>
+                    value={endDate ? format(endDate, "dd.MM.yyyy") : location.state ? location.state.survey.endDate : ""}/>
                 </PopoverHandler>
                 <PopoverContent>
                   <DayPicker
                     mode="single"
                     selected={endDate}
-                    onSelect={setEndDate}
+                    onSelect={(e) => {
+                      handleChange({target:{name:"endDate", value:e}});
+                      setEndDate(e)
+                    }}
                     showOutsideDays
                     className="border-0"
                     classNames={{
@@ -223,9 +268,11 @@ export function CreateSurvey() {
               </div>
               <div className="mt-1">
                 <Checkbox
-                  name = "cb-active" 
+                  name = "isActive"
                   color="blue" 
-                  label= "Aktif"/>
+                  label= "Aktif"
+                  defaultChecked = {location.state ? location.state.survey.isActive : true}
+                  onChange={(e) => handleChange({target:{name:"isActive", value:e.target.checked}})}/>
               </div>
             </div>
             <Button type="submit" className="mt-6" fullWidth>

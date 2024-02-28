@@ -10,30 +10,30 @@ namespace survey_backend.data.Extensions
             List<AnswerType> answerTypes = new List<AnswerType>() {
                 new AnswerType() {
                     Id = 1,
-                    Name = "Çoktan Tekli Seçmeli"
+                    Label = "Çoktan Tekli Seçmeli"
                 },
                 new AnswerType() {
                     Id = 2,
-                    Name = "Çoktan Çoklu Seçmeli"
+                    Label = "Çoktan Çoklu Seçmeli"
                 },
                 new AnswerType() {
                     Id = 3,
-                    Name = "Yazarak Yanıt Verilen"
+                    Label = "Yazarak Yanıt Verilen"
                 },
                 new AnswerType() {
                     Id = 4,
-                    Name = "Listeden Tek Seçilen"
+                    Label = "Listeden Tek Seçilen"
                 }
             };
 
             List<Organization> organizations = new List<Organization>() {
                 new Organization() {
                     Id = 1,
-                    Name = "Test Şirket 1"
+                    Label = "Test Şirket 1"
                 },
                 new Organization() {
                     Id = 2,
-                    Name = "Test Şirket 2"
+                    Label = "Test Şirket 2"
                 }
             };
 
@@ -44,7 +44,7 @@ namespace survey_backend.data.Extensions
                     OrganizationId = 1,
                     Title = "Genel Anket 1",
                     StartDate = DateTime.Parse("2024-02-20 00:00:00,00"),
-                    EndDate = DateTime.Parse("2024-02-22 00:00:00,00"),
+                    EndDate = DateTime.Parse("2024-03-22 00:00:00,00"),
                     IsActive = true
                 },
                 new Survey()
@@ -53,7 +53,7 @@ namespace survey_backend.data.Extensions
                     OrganizationId = 2,
                     Title = "Genel Anket 2",
                     StartDate = DateTime.Parse("2024-02-20 00:00:00,00"),
-                    EndDate = DateTime.Parse("2024-02-22 00:00:00,00"),
+                    EndDate = DateTime.Parse("2024-03-18 00:00:00,00"),
                     IsActive = true
                 }
             };
