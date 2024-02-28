@@ -73,6 +73,10 @@ export function Question() {
       .finally(() => {setLoading(false)})
   };
 
+  const handleSubmit = async (e) => {
+    console.log("OKKK");
+  }
+
   const sendSurvey = () => {
     
     var reqObj = JSON.stringify(answers, function(key, value) {
@@ -107,80 +111,89 @@ export function Question() {
           </Typography>
         </CardHeader>
         <CardBody className="overflow-x-scroll px-0 pt-0 pb-2">
-          {loading ? (
-            <div>Loading...</div>
-          ) : (
-            <>
-              {
-                questions.map((question, index) => (
-                  <div key={crypto.randomUUID()} className="mx-auto my-20 flex max-w-screen-lg flex-col gap-8">
-                    <Card className={question.isMandatory ? 'bg-gray-200' : 'bg-white'}>
-                      <CardHeader
-                        color="transparent"
-                        floated={false}
-                        shadow={false}
-                        className="m-0 p-4">
-                        <Typography variant="h5" color="blue-gray">
-                          {question.text}
-                        </Typography>
-                      </CardHeader>
-                      <CardBody className="flex flex-col gap-4 p-4">
-                        {question.answerTypeId == 1 &&
-                          question.options.map((option) => {
-                            return (
-                              <div key={crypto.randomUUID()} className="flex gap-10">
-                                <Radio 
-                                  key={option.id} 
-                                  id = {option.id}
-                                  name = {"rd-" + option.questionId} 
-                                  color="blue" 
-                                  label={option.label}
-                                  onChange={(e) => onOptionChanged({currentTarget:{type:"radio", id:option.id, questionId:question.id}})}/>
-                              </div>
-                            );
-                          })
-                        }
-                        {question.answerTypeId == 2 &&
-                          question.options.map((option) => {
-                            return (
-                              <div key={crypto.randomUUID()} className="flex gap-10">
-                                <Checkbox
-                                  key={option.id} 
-                                  id = {option.id}
-                                  name = {"cb-" + option.questionId} 
-                                  color="blue" 
-                                  label={option.label}
-                                  onChange={(e) => onOptionChanged({currentTarget:{type:"checkbox", id:option.id, questionId:question.id, checked:e.target.checked}})}/>
-                              </div>
-                            );
-                          })
-                        }
-                        {question.answerTypeId == 3 &&
-                          <div key={crypto.randomUUID()} className="flex gap-10">
-                            <Textarea 
-                              label={question.inputFormatRule}
-                              onChange={(e) => onOptionChanged({currentTarget:{type:"textarea", id:0, questionId:question.id, value:e.target.value}})}/>
-                          </div>
-                        }
-                        {question.answerTypeId == 4 &&
-                          <Select
-                            className="flex gap-10"
-                            color="blue"
-                            onChange={(e) => onOptionChanged({currentTarget:{type:"select", id:e.id, questionId:question.id}})}
-                            options={question.options}/>
-                        }
-                      </CardBody>
-                    </Card>
-                  </div>
-                ))
-              }
-            </>
-          )}
-          <div className="flex flex-col items-center pt-1 pb-5 pl-10 pr-10">
-            <Button onClick={sendSurvey} fullWidth>
-              Anketi Gönder
-            </Button>
-          </div>
+          <form onSubmit={handleSubmit} className="mx-auto">
+            <div className="mb-1 flex flex-col gap-6">
+              <div className="mt-1">
+                {loading ? (
+                  <div>Loading...</div>
+                ) : (
+                  <>
+                    {
+                      questions.map((question, index) => (
+                        <div key={crypto.randomUUID()} className="mx-auto my-20 flex max-w-screen-lg flex-col gap-8">
+                          <Card className={question.isMandatory ? 'bg-gray-200' : 'bg-white'}>
+                            <CardHeader
+                              color="transparent"
+                              floated={false}
+                              shadow={false}
+                              className="m-0 p-4">
+                              <Typography variant="h5" color="blue-gray">
+                                {question.text}
+                              </Typography>
+                            </CardHeader>
+                            <CardBody className="flex flex-col gap-4 p-4">
+                              {question.answerTypeId == 1 &&
+                                question.options.map((option) => {
+                                  return (
+                                    <div key={crypto.randomUUID()} className="flex gap-10">
+                                      <Radio 
+                                        key={option.id} 
+                                        id = {option.id}
+                                        name = {"rd-" + option.questionId} 
+                                        color="blue" 
+                                        label={option.label}
+                                        onChange={(e) => onOptionChanged({currentTarget:{type:"radio", id:option.id, questionId:question.id}})}/>
+                                    </div>
+                                  );
+                                })
+                              }
+                              {question.answerTypeId == 2 &&
+                                question.options.map((option) => {
+                                  return (
+                                    <div key={crypto.randomUUID()} className="flex gap-10">
+                                      <Checkbox
+                                        key={option.id} 
+                                        id = {option.id}
+                                        name = {"cb-" + option.questionId} 
+                                        color="blue" 
+                                        label={option.label}
+                                        onChange={(e) => onOptionChanged({currentTarget:{type:"checkbox", id:option.id, questionId:question.id, checked:e.target.checked}})}/>
+                                    </div>
+                                  );
+                                })
+                              }
+                              {question.answerTypeId == 3 &&
+                                <div key={crypto.randomUUID()} className="flex gap-10">
+                                  <Textarea 
+                                    label={question.inputFormatRule}
+                                    required={question.isMandatory}
+                                    onChange={(e) => onOptionChanged({currentTarget:{type:"textarea", id:0, questionId:question.id, value:e.target.value}})}/>
+                                </div>
+                              }
+                              {question.answerTypeId == 4 &&
+                                <div key={crypto.randomUUID()} className="flex gap-10">
+                                  <Select
+                                    className="peer w-full"
+                                    color="blue"
+                                    onChange={(e) => onOptionChanged({currentTarget:{type:"select", id:e.id, questionId:question.id}})}
+                                    options={question.options}/>
+                                </div>
+                              }
+                            </CardBody>
+                          </Card>
+                        </div>
+                      ))
+                    }
+                  </>
+                )}
+              </div>
+            </div>
+            <div className="flex flex-col items-center pt-1 pb-5 pl-10 pr-10">
+              <Button type="submit" fullWidth>
+                Anketi Gönder
+              </Button>
+            </div>
+          </form>
         </CardBody>
       </Card>
     </div>
