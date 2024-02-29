@@ -16,17 +16,10 @@ export function AnswerTypeManagement() {
 
   const getAnswerTypes = (id) => {
     setLoading(true)
-    fetch(baseUrl + 'answertypes/get', {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem("accessToken")}`,
-        'Accept': 'application/json',
-        'Content-Type':'application/json'
-      },
-    })
-    .then((res) => {return res.json()})
-    .then((data) => {setAnswerTypes(data)})
-    .finally(() => {setLoading(false)})
+    fetch(baseUrl + 'answertypes/get')
+      .then((res) => {return res.json()})
+      .then((data) => {setAnswerTypes(data)})
+      .finally(() => {setLoading(false)})
   }; 
 
   const editAnswerType = (id) => {

@@ -70,14 +70,14 @@ namespace survey_backend.webapi.Controllers
             return Ok();
         }
 
-        [HttpGet("answertypes/get"), Authorize]
+        [HttpGet("answertypes/get")]
         public async Task<IActionResult> GetAnswerTypes()
         {
             var answerTypes = await _answerTypeService.GetAll();
             return Ok(answerTypes);
         }
 
-        [HttpGet("answertypes/get{id}"), Authorize]
+        [HttpGet("answertypes/get{id}")]
         public async Task<IActionResult> GetAnswerType(int id)
         {
             var answerType = await _answerTypeService.GetById(id);
@@ -212,12 +212,65 @@ namespace survey_backend.webapi.Controllers
             return NoContent();
         }
 
+        [HttpGet("questions/get"), Authorize]
+        public async Task<IActionResult> GetQuestions()
+        {
+            var questions = await _questionService.GetAll();
+            var result = _mapper.Map<List<QuestionsDTO>>(questions);
+            return Ok(result);
+        }
+
         [HttpGet("questions/get{id}")]
         public async Task<IActionResult> GetQuestions(int id)
         {
             var questions = await _questionService.GetBySurveyId(id);
             var result = _mapper.Map<List<QuestionsDTO>>(questions);
             return Ok(result);
+        }
+
+        [HttpPost("questions/create"), Authorize]
+        public async Task<IActionResult> CreateQuestion(Question entity)
+        {
+            await _questionService.CreateAsync(entity);
+            return CreatedAtAction(nameof(GetQuestions), new {id=entity.Id},entity);
+        }
+
+        [HttpPut("questions/update/{id}"), Authorize]
+        public async Task<IActionResult> UpdateQuestion(int id, Question entity)
+        {
+            if (id != entity.Id) { return BadRequest();}
+
+            var question = await _questionService.GetById(id);
+
+            if(question == null) { return NotFound(); }
+
+            await _questionService.UpdateAsync(question,entity);
+
+            return NoContent();
+        }
+
+        [HttpDelete("questions/delete/{id}"), Authorize]
+        public async Task<IActionResult> DeleteQuestion(int id)
+        {
+            var question = await _questionService.GetById(id);
+
+            if(question == null){ return NotFound();}
+            await _questionService.DeleteAsync(question);
+            return NoContent();
+        }
+
+        [HttpGet("optipons/get{id}"), Authorize]
+        public async Task<IActionResult> GetOptions(int id)
+        {
+            var options = await _optionService.GetById(id);
+            return Ok(options);
+        }
+
+        [HttpPost("options/create"), Authorize]
+        public async Task<IActionResult> CreateOptions(List<Option> entities)
+        {
+            await _optionService.CreateRange(entities);
+            return Ok();
         }
     }
 }

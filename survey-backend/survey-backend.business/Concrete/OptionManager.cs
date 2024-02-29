@@ -22,6 +22,13 @@ namespace survey_backend.business.Concrete
             return entity;
         }
 
+        public async Task<List<Option>> CreateRange(List<Option> entities)
+        {
+            await _unitofwork.Options.CreateRange(entities);
+            await _unitofwork.SaveAsync();
+            return entities;
+        }
+
         public async Task<List<Option>> GetAll()
         {
             return await _unitofwork.Options.GetAll();

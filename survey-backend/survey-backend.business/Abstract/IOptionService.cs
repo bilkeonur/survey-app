@@ -5,6 +5,7 @@ namespace survey_backend.business.Abstract
     public interface IOptionService: IValidator<Option>
     {
         Task<Option> CreateAsync(Option entity);
+        Task<List<Option>> CreateRange(List<Option> entities);
         Task<List<Option>> GetAll();
         Task<Option> GetById(int id);
         Task<List<Option>> GetByQuestionId(int id);

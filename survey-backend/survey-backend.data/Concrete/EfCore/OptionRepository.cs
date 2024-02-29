@@ -15,6 +15,11 @@ namespace survey_backend.data.Concrete.EfCore
             get {return _context as DataContext; }
         }
 
+        public async Task CreateRange(List<Option> entities)
+        {
+            await _context.Set<Option>().AddRangeAsync(entities);
+        }
+
         public async Task<List<Option>> GetByQuestionId(int id)
         {
             return await _context.Set<Option>()
