@@ -25,7 +25,7 @@ export function OrganizationManagement() {
         'Content-Type':'application/json'
       },
     })
-    .then((res) => {return res.json()})
+    .then((res) => {if(res.status==401) {navigate('/auth/signin')} else return res.json()})
     .then((data) => {setOrganizations(data)})
     .finally(() => {setLoading(false)})
   }; 
@@ -41,9 +41,7 @@ export function OrganizationManagement() {
         'Authorization': `Bearer ${localStorage.getItem("accessToken")}`
       }
     })
-    .then((res) => { 
-      getCompanies();
-    })
+    .then((res) => {if(res.status==401) {navigate('/auth/signin')} else getOrganizations()})
     .catch(error => {console.log(error)});
   };
 
@@ -81,7 +79,7 @@ export function OrganizationManagement() {
                     )}
                   </tr>
                 </thead>
-                    <tbody>
+                  <tbody>
                     {organizations.map(
                       ({ id, label }, key) => {
                         const className = `py-3 px-5 ${

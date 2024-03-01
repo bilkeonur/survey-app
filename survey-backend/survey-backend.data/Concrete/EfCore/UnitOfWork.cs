@@ -15,9 +15,6 @@ namespace survey_backend.data.Concrete.EfCore
         private AnswerRepository _answerRepository;
         public IAnswerRepository Answers => _answerRepository ?? new AnswerRepository(_context);
 
-        private AnswerTypeRepository _answerTypeRepository;
-        public IAnswerTypeRepository AnswerTypes => _answerTypeRepository ?? new AnswerTypeRepository(_context);
-
         private OrganizationRepository _organizationRepository;
         public IOrganizationRepository Organizations => _organizationRepository ?? new OrganizationRepository(_context);
 

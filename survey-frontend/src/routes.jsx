@@ -1,11 +1,9 @@
-import { HomeIcon, ListBulletIcon, ChatBubbleBottomCenterTextIcon, BuildingOfficeIcon, ServerStackIcon, RectangleStackIcon, ClipboardDocumentListIcon } from "@heroicons/react/24/solid";
-import { Home, Survey, Question } from "@/pages/dashboard";
-import { AnswerTypeManagement, CreateQuestions, CreateOrganization, OrganizationManagement, SurveyManagement } from "@/pages/manage";
+import { ListBulletIcon, ChatBubbleBottomCenterTextIcon, BuildingOfficeIcon, ServerStackIcon, RectangleStackIcon, ClipboardDocumentListIcon } from "@heroicons/react/24/solid";
+import { Survey, Question } from "@/pages/dashboard";
+import { SurveyStaticsByAnswers, SurveyStaticsByDate, CreateSurvey, CreateQuestions, CreateOrganization, OrganizationManagement, SurveyManagement } from "@/pages/manage";
 import { SignIn, SignUp } from "@/pages/auth";
 import Authorization from "@/provider/Authorization";
 import Permissions from "@/provider/Permissions";
-import CreateAnswerType from "./pages/manage/CreateAnswerType";
-import CreateSurvey from "./pages/manage/CreateSurvey";
 
 const icon = {
     className: "w-5 h-5 text-inherit",
@@ -15,13 +13,6 @@ export const routes = [
     {
         layout: "dashboard",
         pages: [
-            {
-                icon: <HomeIcon {...icon} />,
-                name: "Ana Sayfa",
-                path: "/home",
-                active: true,
-                element: <Home />
-            },
             {
               icon: <ListBulletIcon {...icon} />,
               name: "Anketler",
@@ -76,20 +67,6 @@ export const routes = [
           element: <Authorization element={<CreateOrganization/>} permissions={[Permissions.CREATE_ORGANIZATION]}/>
         },
         {
-          icon: <ChatBubbleBottomCenterTextIcon {...icon} />,
-          name: "Cevap Tipi Yönetimi",
-          path: "/answertypemanagement",
-          active: true,
-          element: <Authorization element={<AnswerTypeManagement/>} permissions={[Permissions.ANSWER_TYPE_MANAGEMENT]}/>
-        },
-        {
-          icon: <ListBulletIcon {...icon} />,
-          name: "Cevap Tipi Ekle",
-          path: "/createanswertype",
-          active: false,
-          element: <Authorization element={<CreateAnswerType/>} permissions={[Permissions.CREATE_ANSWER_TYPE]}/>
-        },
-        {
           icon: <ClipboardDocumentListIcon {...icon} />,
           name: "Anket Yönetimi",
           path: "/surveymanagement",
@@ -109,6 +86,20 @@ export const routes = [
           path: "/createquestions",
           active: false,
           element: <CreateQuestions/>
+        },
+        {
+          icon: <ClipboardDocumentListIcon {...icon} />,
+          name: "Tarihsel İstatistik",
+          path: "/surveystaticsbydate",
+          active: false,
+          element: <SurveyStaticsByDate/>
+        },
+        {
+          icon: <ClipboardDocumentListIcon {...icon} />,
+          name: "Yanıtsal İstatistik",
+          path: "/surveystaticsbyanswers",
+          active: false,
+          element: <SurveyStaticsByAnswers/>
         }
       ]
     }

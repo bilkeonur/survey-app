@@ -9,17 +9,10 @@ export function Survey() {
 
   const [surveys, setSurveys] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [rowId, setRowId] = useState();
 
   useEffect(() => {
     getSurveys();
   }, []);
-
-  useEffect(() => {
-    if(rowId != undefined) {
-      navigate('/dashboard/question', { state: { surveyId: rowId, surveyName: surveys[rowId-1].title } });
-    }
-  },[rowId]);
 
   const getSurveys = () => {
     setLoading(true)
@@ -27,6 +20,10 @@ export function Survey() {
       .then((res) => {return res.json()})
       .then((data) => {setSurveys(data)})
       .finally(() => {setLoading(false)})
+  };
+
+  const navigate2Questions = (surveyId,surveyName) => {
+    navigate('/dashboard/question', { state: { surveyId: surveyId, surveyName: surveyName } });
   };
 
   return (
@@ -70,7 +67,7 @@ export function Survey() {
                         }`;
 
                         return (
-                          <tr key={title} onClick={() => setRowId(id)} className="hover:cursor-pointer opacity-100 transition-all hover:text-blue-500 hover:opacity-50">
+                          <tr key={title} onClick={() => navigate2Questions(id,title)} className="hover:cursor-pointer opacity-100 transition-all hover:text-blue-500 hover:opacity-50">
                             <td width='50%' className={className}>
                               <div className="flex items-center gap-4">
                                 <Avatar src={"/img/survey.svg"} alt={title} size="sm" />

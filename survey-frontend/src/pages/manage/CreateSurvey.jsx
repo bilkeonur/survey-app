@@ -50,7 +50,7 @@ export function CreateSurvey() {
         'Content-Type':'application/json'
       },
     })
-    .then((res) => {return res.json()})
+    .then((res) => {if(res.status==401) {navigate('/auth/signin')} else return res.json()})
     .then((data) => {setOrganizations(data)})
   }; 
 
@@ -86,7 +86,6 @@ export function CreateSurvey() {
 
   const updateSurvey = (id) => {
     let reqData = JSON.stringify(formData,["id","organizationId","title","startDate","endDate","isActive"]);
-    console.log(reqData);
     fetch(baseUrl + `surveys/update/${id}`, {
       method: 'PUT',
       headers: {

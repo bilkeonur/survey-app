@@ -1,18 +1,20 @@
 import React from "react";
 import Select from "react-select"
-import { Button, Textarea, Radio, Checkbox, Typography, Card, CardHeader, CardBody} from "@material-tailwind/react";
+import { Button, Input, Radio, Checkbox, Typography, Card, CardHeader, CardBody} from "@material-tailwind/react";
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { baseUrl } from "@/constant";
+import { dateFormats } from "@/data";
 
 export function Question() {
   
   const navigate = useNavigate();
 
-  const { state: { surveyId, surveyName } = {} } = useLocation();
+  const location = useLocation();
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState();
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({});
 
   const onOptionChanged = (e) => {
     let type = e.currentTarget.type;
@@ -49,7 +51,7 @@ export function Question() {
     
     questions.map((question, index) => {
       let answer = {
-        surveyId: surveyId,
+        surveyId: location.state.surveyId,
         questionId: question.id,
         answerTypeId:question.answerTypeId,
         isMandatory: question.isMandatory,
@@ -64,7 +66,7 @@ export function Question() {
 
   const getQuestions = () => {
     setLoading(true)
-    fetch(baseUrl + `questions/get${surveyId}`)
+    fetch(baseUrl + `questions/get${location.state.surveyId}`)
       .then((res) => {return res.json()})
       .then((data) => {
         setQuestions(data);
@@ -74,21 +76,26 @@ export function Question() {
   };
 
   const handleSubmit = async (e) => {
-    console.log("OKKK");
+    e.preventDefault();
+    setErrors("");
+    sendSurvey();
   }
 
   const sendSurvey = () => {
     
-    var reqObj = JSON.stringify(answers, function(key, value) {
-      if (key === 'selOptions') {return String(value);}
-      return value;
-    });
+    const reqObj = answers.map(answers => ({
+      surveyId: answers.surveyId,
+      questionId: answers.questionId,
+      selOptions: String(answers.selOptions)
+    }));
 
-    console.log(reqObj);
+    console.log(JSON.stringify(reqObj));
+
+
     fetch(baseUrl + 'answers/create', {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
-      body: reqObj
+      body: JSON.stringify(reqObj)
     })
     .then((res) => { 
       if(res.status == 200) {
@@ -107,7 +114,7 @@ export function Question() {
       <Card>
         <CardHeader variant="gradient" color="gray" className="mb-8 p-6">
           <Typography variant="h6" color="white">
-            {surveyName}
+            {location.state && location.state.surveyName}
           </Typography>
         </CardHeader>
         <CardBody className="overflow-x-scroll px-0 pt-0 pb-2">
@@ -119,79 +126,107 @@ export function Question() {
                 ) : (
                   <>
                     {
-                      questions.map((question, index) => (
-                        <div key={crypto.randomUUID()} className="mx-auto my-20 flex max-w-screen-lg flex-col gap-8">
-                          <Card className={question.isMandatory ? 'bg-gray-200' : 'bg-white'}>
-                            <CardHeader
-                              color="transparent"
-                              floated={false}
-                              shadow={false}
-                              className="m-0 p-4">
-                              <Typography variant="h5" color="blue-gray">
-                                {question.text}
-                              </Typography>
-                            </CardHeader>
-                            <CardBody className="flex flex-col gap-4 p-4">
-                              {question.answerTypeId == 1 &&
-                                question.options.map((option) => {
-                                  return (
+                      questions.length > 0 ?
+                        <div>
+                          {questions.map((question, index) => (
+                            <div key={crypto.randomUUID()} className="mx-auto my-20 flex max-w-screen-lg flex-col gap-8">
+                              <Card className={question.isMandatory ? 'bg-sky-50 border-solid border-2 border-indigo-600' : 'bg-white border-solid border-2 border-indigo-200'}>
+                                <CardHeader
+                                  color="transparent"
+                                  floated={false}
+                                  shadow={false}
+                                  className="m-0 p-4">
+                                  <Typography variant="h5" color="blue-gray">
+                                    {question.isMandatory ? question.text + " (Zorunlu Alan)" : question.text}
+                                  </Typography>
+                                </CardHeader>
+                                <CardBody className="flex flex-col gap-4 p-4">
+                                  {question.answerTypeId == 1 &&
+                                    question.options.map((option) => {
+                                      return (
+                                        <div key={crypto.randomUUID()} className="flex gap-10">
+                                          <Radio 
+                                            key={option.id} 
+                                            id = {option.id}
+                                            name = {"rd-" + option.questionId} 
+                                            color="blue" 
+                                            label={option.label}
+                                            onChange={(e) => onOptionChanged({currentTarget:{type:"radio", id:option.id, questionId:question.id}})}/>
+                                        </div>
+                                      );
+                                    })
+                                  }
+                                  {question.answerTypeId == 2 &&
+                                    question.options.map((option) => {
+                                      return (
+                                        <div key={crypto.randomUUID()} className="flex gap-10">
+                                          <Checkbox
+                                            key={option.id} 
+                                            id = {option.id}
+                                            name = {"cb-" + option.questionId} 
+                                            color="blue" 
+                                            label={option.label}
+                                            onChange={(e) => onOptionChanged({currentTarget:{type:"checkbox", id:option.id, questionId:question.id, checked:e.target.checked}})}/>
+                                        </div>
+                                      );
+                                    })
+                                  }
+                                  {question.answerTypeId == 3 &&
                                     <div key={crypto.randomUUID()} className="flex gap-10">
-                                      <Radio 
-                                        key={option.id} 
-                                        id = {option.id}
-                                        name = {"rd-" + option.questionId} 
-                                        color="blue" 
-                                        label={option.label}
-                                        onChange={(e) => onOptionChanged({currentTarget:{type:"radio", id:option.id, questionId:question.id}})}/>
+                                      <Input
+                                        {...(question.inputFormatId == 2 && 
+                                          {
+                                            type: "number",
+                                            label: "(" + JSON.parse(question.inputFormatRule).min + " - " + JSON.parse(question.inputFormatRule).max + ") Aralığında Bir Değer Giriniz"
+                                          }
+                                        )}
+                                        {...(question.inputFormatId == 3 && 
+                                          {
+                                            maxLength: JSON.parse(question.inputFormatRule).max,
+                                            label: "Maximum Uzunluk " + JSON.parse(question.inputFormatRule).max + " Karakter"
+                                          }
+                                        )}
+                                        {...(question.inputFormatId == 4 && 
+                                          {
+                                            label: "Giriş Formatı : " + dateFormats.find(df => df.id === parseInt(question.inputFormatRule)).label + " Şeklinde Olmalıdır"
+                                          }
+                                        )}
+                                        variant="outlined"
+                                        color="blue"
+                                        required={question.isMandatory}
+                                        onChange={(e) => onOptionChanged({currentTarget:{type:"textarea", id:0, questionId:question.id, value:e.target.value}})}/>
                                     </div>
-                                  );
-                                })
-                              }
-                              {question.answerTypeId == 2 &&
-                                question.options.map((option) => {
-                                  return (
+                                  }
+                                  {question.answerTypeId == 4 &&
                                     <div key={crypto.randomUUID()} className="flex gap-10">
-                                      <Checkbox
-                                        key={option.id} 
-                                        id = {option.id}
-                                        name = {"cb-" + option.questionId} 
-                                        color="blue" 
-                                        label={option.label}
-                                        onChange={(e) => onOptionChanged({currentTarget:{type:"checkbox", id:option.id, questionId:question.id, checked:e.target.checked}})}/>
+                                      <Select
+                                        className="peer w-full"
+                                        color="blue"
+                                        onChange={(e) => onOptionChanged({currentTarget:{type:"select", id:e.id, questionId:question.id}})}
+                                        options={question.options}/>
                                     </div>
-                                  );
-                                })
-                              }
-                              {question.answerTypeId == 3 &&
-                                <div key={crypto.randomUUID()} className="flex gap-10">
-                                  <Textarea 
-                                    label={question.inputFormatRule}
-                                    required={question.isMandatory}
-                                    onChange={(e) => onOptionChanged({currentTarget:{type:"textarea", id:0, questionId:question.id, value:e.target.value}})}/>
-                                </div>
-                              }
-                              {question.answerTypeId == 4 &&
-                                <div key={crypto.randomUUID()} className="flex gap-10">
-                                  <Select
-                                    className="peer w-full"
-                                    color="blue"
-                                    onChange={(e) => onOptionChanged({currentTarget:{type:"select", id:e.id, questionId:question.id}})}
-                                    options={question.options}/>
-                                </div>
-                              }
-                            </CardBody>
-                          </Card>
+                                  }
+                                </CardBody>
+                              </Card>
+                            </div>
+                          ))}
+                          <div>
+                            <Button type="submit">
+                              Anketi Gönder
+                            </Button>
+                          </div>
                         </div>
-                      ))
+                      :
+                        <div>
+                          <Typography className="ml-6" variant="h6" color="black">
+                              <i className="fa-solid fa-circle-info mr-2"></i>
+                              Bu Anket Soru İçermemektedir
+                          </Typography>
+                        </div>
                     }
                   </>
                 )}
               </div>
-            </div>
-            <div className="flex flex-col items-center pt-1 pb-5 pl-10 pr-10">
-              <Button type="submit" fullWidth>
-                Anketi Gönder
-              </Button>
             </div>
           </form>
         </CardBody>

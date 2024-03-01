@@ -1,5 +1,6 @@
 using survey_backend.business.Abstract;
 using survey_backend.data.Abstract;
+using survey_backend.data.DTO;
 using survey_backend.entity;
 
 namespace survey_backend.business.Concrete
@@ -51,9 +52,14 @@ namespace survey_backend.business.Concrete
             await _unitofwork.SaveAsync();
         }
 
-        public async Task<object> CalculateStatics()
+        public async Task<List<StaticsByDateDTO>> GetStatisticsByDateRange(int surveyId)
         {
-            return await _unitofwork.Answers.CalculateStatics();
+            return await _unitofwork.Answers.GetStatisticsByDateRange(surveyId);
+        }
+
+        public async Task<List<StaticsByAnswersDTO>> GetStatisticsByAnswers(int surveyId)
+        {
+            return await _unitofwork.Answers.GetStatisticsByAnswers(surveyId);
         }
 
         public bool Validation(Answer entity)

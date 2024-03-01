@@ -10,7 +10,10 @@ using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddNewtonsoftJson(options => 
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options => {
     options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
@@ -35,7 +38,6 @@ builder.Services.AddIdentityApiEndpoints<IdentityUser>()
 builder.Services.AddAutoMapper(typeof(SurveyMapperConfig));
 builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
 builder.Services.AddScoped<IAnswerService,AnswerManager>();
-builder.Services.AddScoped<IAnswerTypeService,AnswerTypeManager>();
 builder.Services.AddScoped<IOrganizationService,OrganizationManager>();
 builder.Services.AddScoped<IQuestionService,QuestionManager>();
 builder.Services.AddScoped<ISurveyService,SurveyManager>();

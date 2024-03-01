@@ -37,9 +37,7 @@ export function SurveyManagement() {
         'Authorization': `Bearer ${localStorage.getItem("accessToken")}`
       }
     })
-    .then((res) => { 
-      getSurveys();
-    })
+    .then((res) => {if(res.status==401) {navigate('/auth/signin')} else getSurveys()})
     .catch(error => {console.log(error)});
   };
 
@@ -88,7 +86,7 @@ export function SurveyManagement() {
 
                         return (
                           <tr key={title} className="hover:cursor-pointer opacity-100 transition-all hover:text-blue-500 hover:opacity-50">
-                            <td width='50%' className={className}>
+                            <td width='35%' className={className}>
                               <div className="flex items-center gap-4">
                                 <Avatar src={"/img/survey.svg"} alt={title} size="sm" />
                                 <Typography
@@ -122,34 +120,52 @@ export function SurveyManagement() {
                                 {endDate}
                               </Typography>
                             </td>
-                            <td width='5%' className={className}>
+                            <td width='20%' className={className}>
                               <div className="flex items-center gap-4">
                                 <IconButton
                                   title="Soru Ekle" 
                                   onClick={() => createQuestions(key)}
-                                  size="md" 
+                                  size="lg" 
                                   color="blue" 
                                   variant="outlined" 
                                   className="m-2">
-                                    <i className="fa-solid fa-circle-question fa-md" />
+                                    <i className="fa-solid fa-circle-question fa-xl" />
                                 </IconButton>
                                 <IconButton 
                                   title="Düzenle"
                                   onClick={() => editSurvey(key)} 
-                                  size="md" 
-                                  color="blue" 
+                                  size="lg" 
+                                  color="amber" 
                                   variant="outlined"
                                   className="m-2">
-                                    <i className="fa-solid fa-pen-to-square fa-md" />
+                                    <i className="fa-solid fa-pen-to-square fa-xl" />
                                 </IconButton>
                                 <IconButton 
                                   title="Sil"
                                   onClick={() => deleteSurvey(key)}
-                                  size="md" 
+                                  size="lg" 
                                   color="red" 
                                   variant="outlined"
                                   className="m-2">
-                                    <i className="fa-solid fa-trash fa-md" />
+                                    <i className="fa-solid fa-trash fa-xl" />
+                                </IconButton>
+                                <IconButton 
+                                  title="Tarihsel İstatistikler"
+                                  onClick={() => navigate('/manage/surveystaticsbydate', { state: { surveyId: surveys[key].id} })}
+                                  size="lg" 
+                                  color="green" 
+                                  variant="outlined"
+                                  className="m-2">
+                                    <i className="fa-solid fa-calendar-days fa-xl" />
+                                </IconButton>
+                                <IconButton 
+                                  title="Yanıtsal İstatistikler"
+                                  onClick={() => navigate('/manage/surveystaticsbyanswers', { state: { surveyId: surveys[key].id} })}
+                                  size="lg" 
+                                  color="pink" 
+                                  variant="outlined"
+                                  className="m-2">
+                                    <i className="fa-solid fa-square-poll-vertical fa-xl" />
                                 </IconButton>
                               </div>
                             </td>

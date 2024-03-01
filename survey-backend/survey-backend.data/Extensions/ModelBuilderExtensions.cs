@@ -7,25 +7,6 @@ namespace survey_backend.data.Extensions
     {
         public static void Seed(this ModelBuilder builder) 
         {
-            List<AnswerType> answerTypes = new List<AnswerType>() {
-                new AnswerType() {
-                    Id = 1,
-                    Label = "Çoktan Tekli Seçmeli"
-                },
-                new AnswerType() {
-                    Id = 2,
-                    Label = "Çoktan Çoklu Seçmeli"
-                },
-                new AnswerType() {
-                    Id = 3,
-                    Label = "Yazarak Yanıt Verilen"
-                },
-                new AnswerType() {
-                    Id = 4,
-                    Label = "Listeden Tek Seçilen"
-                }
-            };
-
             List<Organization> organizations = new List<Organization>() {
                 new Organization() {
                     Id = 1,
@@ -107,7 +88,7 @@ namespace survey_backend.data.Extensions
                     AnswerTypeId = 3,
                     IsMandatory=false,
                     InputFormatId = 3,
-                    InputFormatRule = "{\"max\":200}"
+                    InputFormatRule = "{\"min\":10,\"max\":200}"
                 },
                 new Question() {
                     Id = 7,
@@ -116,7 +97,7 @@ namespace survey_backend.data.Extensions
                     AnswerTypeId = 3,
                     IsMandatory = true,
                     InputFormatId = 4,
-                    InputFormatRule = "{\"pattern\":\"gg\\aa\\yyyy\"}"
+                    InputFormatRule = "1"
                 },
                 new Question() {
                     Id = 8,
@@ -197,7 +178,6 @@ namespace survey_backend.data.Extensions
                 }
             };
 
-            builder.Entity<AnswerType>().HasData(answerTypes);
             builder.Entity<Organization>().HasData(organizations);
             builder.Entity<Question>().HasData(questions);
             builder.Entity<Survey>().HasData(surveys);

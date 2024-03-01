@@ -4,6 +4,7 @@ import { object, string} from 'yup';
 import { useNavigate, useLocation } from "react-router-dom"
 import { IconButton, Checkbox, Input, Button, Typography, Card, CardHeader, CardBody} from "@material-tailwind/react";
 import { baseUrl } from "@/constant";
+import { answerTypes, dateFormats, inputFormats } from "@/data";
 
 export function CreateQuestions() {
   
@@ -11,42 +12,24 @@ export function CreateQuestions() {
   const navigate = useNavigate();
   const inputRef = useRef();
 
-  const [formMode, setFormMode] = useState(0);
-  const [question, setQuestion] = useState("");
-  const [questions, setQuestions] = useState([]);
-  const [answerType, setAnswerType] = useState(0);
-  const [answerTypes, setAnswerTypes] = useState({});
-  const [inputFormat, setInputFormat] = useState(0);
-  const [minValue, setMinValue] = useState(0);
-  const [maxValue, setMaxValue] = useState(0);
-  const [dateFormat, setDateFormat] = useState(0);
-  const [isMandatory, setIsMandatory] = useState(true);
-    
-  let [options, setOptions] = useState([
-    {id: crypto.randomUUID(), text:""},
-    {id: crypto.randomUUID(), text:""}
-  ]);
+  const [inpQuestion, setInpQuestion] = useState("");
+  const [inpAnswerTypeId, setInpAnswerTypeId] = useState(0);
+  const [inpInputFormatId, setInpInputFormatId] = useState(0);
+  const [inpDateFormatId, setInpDateFormatId] = useState(0);
+  const [inpMinValue, setInpMinValue] = useState(0);
+  const [inpMaxValue, setInpMaxValue] = useState(0);
+  const [inpIsMandatory, setInpIsMandatory] = useState(true);
+  let [inpOptions, setInpOptions] = useState([]);
+  let [inpOptionCount, setInpOptionCount] = useState(2);
 
-  let [optionCount, setOptionCount] = useState(2);
+  const [formMode, setFormMode] = useState(0);
+  const [questions, setQuestions] = useState([]);
+    
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
-  const inputFormats = [
-    {id:2,label:"Numerik"},
-    {id:3,label:"Alfanumerik"},
-    {id:4,label:"Tarih"}
-  ]
-
-  const dateFormats = [
-    {id:1,label:"gg/aa/yyyy"},
-    {id:2,label:"aa/gg/yyyy"},
-    {id:3,label:"yyyy/aa/gg"},
-    {id:4,label:"yyyy/gg/aa"}
-  ]
-
   useEffect(() => {
     getQuestions();
-    getAnswerTypes();
   }, []);
 
   const validationSchema = object({
@@ -56,20 +39,42 @@ export function CreateQuestions() {
       .max(80,"Soru Maximum 150 Karakter Olmalıdır")
   });
 
+  const initForm = () => {   
+    setFormMode(0); 
+    setInpQuestion("");
+    setInpAnswerTypeId(0);
+    setInpAnswerTypeText("");
+    setInpInputFormatId(0);
+    setInpDateFormatId(0);
+    setInpMinValue(0);
+    setInpMaxValue(0);
+    setInpIsMandatory(true)
+    initOptions();
+  }
+
+  const initOptions = () => {
+    setInpOptions([
+      {id: crypto.randomUUID(), label:""},
+      {id: crypto.randomUUID(), label:""}
+    ]);
+
+    setInpOptionCount(2);
+  }
+
   const addOption = () => {
-    let newOption = {id: crypto.randomUUID(), text:""};
-    setOptions(current => [...current, newOption]);
-    setOptionCount(++optionCount);
+    let newOption = {id: crypto.randomUUID(), label:""};
+    setInpOptions(current => [...current, newOption]);
+    setInpOptionCount(++inpOptionCount);
   }
 
   const deleteOption = (id) => {
-    if(optionCount > 2) {
-      let tmpOptions = [...options];
-      let curOption = options.find(opt => opt.id === id);
-      let curIndex = options.indexOf(curOption);
+    if(inpOptionCount > 2) {
+      let tmpOptions = [...inpOptions];
+      let curOption = inpOptions.find(opt => opt.id === id);
+      let curIndex = inpOptions.indexOf(curOption);
       tmpOptions.splice(curIndex, 1);
-      setOptions(tmpOptions);
-      setOptionCount(--optionCount);
+      setInpOptions(tmpOptions);
+      setInpOptionCount(--inpOptionCount);
     }
   }
 
@@ -77,53 +82,48 @@ export function CreateQuestions() {
     setLoading(true)
     fetch(baseUrl + `questions/get${location.state.survey.id}`)
       .then((res) => {return res.json()})
-      .then((data) => {
-        setQuestions(data);
-      })
+      .then((data) => {setQuestions(data)})
       .finally(() => {setLoading(false)})
   };
-
-  const getAnswerTypes = () => {
-    fetch(baseUrl + 'answertypes/get')
-      .then((res) => {return res.json()})
-      .then((data) => {setAnswerTypes(data)})
-  }; 
 
   const handleChange = (e) => {
     let targetId = e.target.id;
     let targetName = e.target.name;
     let targetValue = e.target.value;
 
+    console.log(e);
+
     if(targetName == "text") {
-      setQuestion(targetValue);
+      setInpQuestion(targetValue);
     }
     else if(targetName == "answerTypeId") {
-      setAnswerType(targetValue);
-      setInputFormat(0);
-      setDateFormat(0);
+      initOptions();
+      setInpAnswerTypeId(targetValue);
+      setInpInputFormatId(0);
+      setInpDateFormatId(0);
     }
     else if(targetName == "inputFormatId") {
-      setInputFormat(targetValue);
-      setDateFormat(0);
+      setInpInputFormatId(targetValue);
+      setInpDateFormatId(0);
     }
     else if(targetName == "dateFormatId") {
-      setDateFormat(targetValue);
+      setInpDateFormatId(targetValue);
     }
     else if(targetName == "inpOption") {
-      options.find(opt => opt.id === targetId).text = targetValue;
-    }
-    else if(targetName == "isMandatory") {
-      setIsMandatory(targetValue);
+      inpOptions.find(opt => opt.id === targetId).label = targetValue;
     }
     else if(targetName == "minimum") {
-      //setMinValue(targetValue);
+      setInpMinValue(targetValue);
     }
     else if(targetName == "maximum") {
-      //setMaxValue(targetValue);
+      setInpMaxValue(targetValue);
+    }
+    else if(targetName == "isMandatory") {
+      setInpIsMandatory(targetValue);
     }
   };
 
-  const createQuestion = (e,reqData) => {
+  const createQuestion = (reqData) => {
     fetch(baseUrl + 'questions/create', {
       method: 'POST',
       headers: {
@@ -134,36 +134,18 @@ export function CreateQuestions() {
       body: JSON.stringify(reqData)
     })
     .then((res) => {
-      if(res.status==401) {navigate('/auth/signin')}
-      else {return res.json()}})
-    .then((data) => {
-      let questionId = data.id;
-      createOptions(questionId)})
+      if(res.status == 201) {initForm();getQuestions();}
+      else if(res.status == 401) {navigate('/auth/signin')}})
     .catch(error => {alert("Hata Oluştu : " + error.inner)});
   }
 
-  const createOptions = (questionId) => {
-    const optArray = options.map(option => {return { questionId: questionId, label:option.text }});
-    console.log(JSON.stringify(optArray));
-    fetch(baseUrl + 'options/create', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem("accessToken")}`,
-        'Accept': 'application/json',
-        'Content-Type':'application/json'
-      },
-      body: JSON.stringify(optArray)
-    })
-    .then((res) => { 
-      if(res.status==401) {navigate('/auth/signin')}
-      else {window.location.reload()}
-    })
-    .catch(error => {alert("Hata Oluştu : " + error.inner)});
-  }
-
-  const editQuestion = (id) => {
-    console.log("OKK " + id);
-    inputRef.current.focus();
+  const editQuestion = (question) => {
+    console.log(question);
+    setFormMode(1);
+    setInpQuestion(question.text);
+    setInpAnswerTypeId(question.answerTypeId);
+    setInpOptions(question.options.map(opt => {return { id: opt.id, label: opt.label }}));
+    setInpOptionCount(question.options.length);
   }
 
   const deleteQuestion = (id) => {
@@ -186,28 +168,31 @@ export function CreateQuestions() {
     
     let inputFormatRule = "";
 
-    if(inputFormat == 2 || inputFormat == 3) {
-      inputFormatRule = JSON.stringify({min:minValue, max:maxValue});
+    if(inpInputFormatId == 2 || inpInputFormatId == 3) {
+      inputFormatRule = JSON.stringify({min:parseInt(inpMinValue), max:parseInt(inpMaxValue)});
     }
-    else if(inputFormat == 4) {
-      inputFormatRule = String(dateFormat);
-    }
-    else {
-      inputFormatRule = "";
+    else if(inpInputFormatId == 4) {
+      inputFormatRule = String(inpDateFormatId);
     }
 
     let reqData = {
       surveyId: location.state.survey.id,
-      answerTypeId:answerType,
-      isMandatory:isMandatory,
-      inputFormatId:inputFormat,
-      inputFormatRule:inputFormatRule,
-      text:question
+      answerTypeId: inpAnswerTypeId,
+      isMandatory: inpIsMandatory,
+      inputFormatId: inpInputFormatId,
+      inputFormatRule: inputFormatRule,
+      text: inpQuestion,
     }
+
+    if(inpOptions[0].label != "") {
+      reqData["options"] = inpOptions.map(option => {return { label:option.label }});
+    }
+    
+    console.log(JSON.stringify(reqData));
 
     try {
       await validationSchema.validate(reqData, {abortEarly: false});
-      if(formMode == 0) {createQuestion(e,reqData)}
+      if(formMode == 0) {createQuestion(reqData)}
     } 
     catch (error) {
       const newErrors = {};
@@ -244,6 +229,7 @@ export function CreateQuestions() {
                     <Input
                       ref={inputRef}
                       name="text"
+                      value={inpQuestion}
                       color="blue" 
                       label="Soru"
                       size="lg"
@@ -268,89 +254,100 @@ export function CreateQuestions() {
                       placeholder="Yanıt Tipi Seçiniz"
                       required
                       color="blue"
-                      defaultValue={answerType && {label:answerType.label}}
+                      defaultValue={inpAnswerTypeId !=0 && {label:(answerTypes.find(at => at.id === inpAnswerTypeId)).label}}
                       onChange={(e) => handleChange({target:{id:1, name:"answerTypeId", value:e.id}})}
                       options={answerTypes}/>
                 </div>
-                {(answerType == 1 || answerType == 2 || answerType == 4) ?
-                  <div className="mt-1">
-                    <div>
-                      <Button onClick={addOption} ripple={true} color="red" className="mb-6" fullWidth>
-                        Seçenek Ekle
-                      </Button>
+                {
+                  (inpAnswerTypeId == 1 || inpAnswerTypeId == 2 || inpAnswerTypeId == 4) ?
+                    <div className="mt-1">
+                      <div>
+                        <Button 
+                          onClick={addOption}
+                          ripple={true} 
+                          color="red" 
+                          className="mb-6" 
+                          fullWidth>
+                            Seçenek Ekle
+                        </Button>
+                      </div>
+                      
+                      <div>
+                        {inpOptions && inpOptions.map(({ id, label}, key) => {
+                          return (
+                            <div key={crypto.randomUUID()} className="mt-3 flex items-center">
+                              {inpAnswerTypeId == 1 && <i className="fa-solid fa-circle-dot pr-2"/>}
+                              {inpAnswerTypeId == 2 && <i className="fa-solid fa-square-check pr-2"/>}
+                              {inpAnswerTypeId == 4 && <i className="fa-solid fa-list pr-2"/>}
+                              <Input
+                                name={"opt" + id}
+                                label="Seçenek"
+                                defaultValue={label}
+                                color="blue"
+                                size="lg"
+                                onChange={(e) => handleChange({target:{id:id, name:"inpOption", value:e.target.value}})}
+                                containerProps={{ className: "min-w-0" }}
+                                icon={<i onClick={(e) => deleteOption(id)} className="fa-solid fa-trash"/>}
+                                required/>
+                              </div>
+                            );
+                          })
+                        }
+                      </div>
                     </div>
-                    
-                    <div>
-                      {options && options.map(({ id, text}, key) => {
-                        return (
-                          <div key={crypto.randomUUID()} className="mt-3 flex items-center">
-                            {answerType == 1 && <i className="fa-solid fa-circle-dot pr-2"/>}
-                            {answerType == 2 && <i className="fa-solid fa-square-check pr-2"/>}
-                            {answerType == 4 && <i className="fa-solid fa-list pr-2"/>}
+                  : inpAnswerTypeId == 3 ?
+                    <div className="mt-0">
+                      <div>
+                        <Select
+                          name="inputFormat"
+                          placeholder="Giriş Tipi Seçiniz"
+                          required
+                          color="blue"
+                          onChange={(e) => handleChange({target:{id:1, name:"inputFormatId", value:e.id}})}
+                          options={inputFormats}/>
+                      </div>
+                      <div>
+                        {(inpInputFormatId == 2 || inpInputFormatId == 3) ?
+                          <div className="mt-7 flex items-center space-x-6">
                             <Input
-                              name={"opt" + id}
-                              label="Seçenek"
-                              defaultValue={text}
-                              color="blue"
+                              name= "minimum"
+                              value={inpMinValue}
+                              type="number"
+                              color="blue" 
                               size="lg"
-                              onChange={(e) => handleChange({target:{id:id, name:"inpOption", value:e.target.value}})}
                               containerProps={{ className: "min-w-0" }}
-                              icon={<i onClick={(e) => deleteOption(id)} className="fa-solid fa-trash"/>}
+                              icon={<i className="fa-solid fa-square-minus"/>}
+                              onChange={(e) => handleChange({target:{id:1, name:"minimum", value:e.target.value}})}
                               required/>
-                            </div>
-                          );
-                        })
-                      }
+                            <Input
+                              name="maximum"
+                              value={inpMaxValue}
+                              type="number"
+                              color="blue" 
+                              label="Maximum"
+                              size="lg"
+                              containerProps={{ className: "min-w-0" }}
+                              icon={<i className="fa-solid fa-square-plus"/>}
+                              onChange={(e) => handleChange({target:{id:1, name:"maximum", value:e.target.value}})}
+                              required/>
+                          </div>  
+                        :
+                          <div className="mt-7">
+                            <Select
+                              name="dateFormatId"
+                              label="Tarih Formatı"
+                              placeholder="Tarih Formatı"
+                              required
+                              color="blue"
+                              onChange={(e) => handleChange({target:{id:1,name:"dateFormatId", value:e.id}})}
+                              options={dateFormats}/>
+                          </div>
+                        }
+                      </div>
                     </div>
-                  </div>
-                :
-                  <div className="mt-0">
-                    <div>
-                      <Select
-                        name="inputFormat"
-                        placeholder="Giriş Tipi Seçiniz"
-                        required
-                        color="blue"
-                        onChange={(e) => handleChange({target:{id:1, name:"inputFormatId", value:e.id}})}
-                        options={inputFormats}/>
+                  :
+                    <div className="mt-0">
                     </div>
-                    <div>
-                      {(inputFormat == 2 || inputFormat == 3) ?
-                        <div key={crypto.randomUUID()} className="mt-7 flex items-center space-x-6">
-                          <Input
-                            name= "minimum"
-                            type="number"
-                            color="blue" 
-                            size="lg"
-                            containerProps={{ className: "min-w-0" }}
-                            icon={<i className="fa-solid fa-square-minus"/>}
-                            onChange={(e) => handleChange({target:{id:1, name:"minimum", value:e.target.value}})}
-                            required/>
-                          <Input
-                            name="maximum"
-                            type="number"
-                            color="blue" 
-                            label="Maximum"
-                            size="lg"
-                            containerProps={{ className: "min-w-0" }}
-                            icon={<i className="fa-solid fa-square-plus"/>}
-                            onChange={(e) => handleChange({target:{id:1, name:"maximum", value:e.target.value}})}
-                            required/>
-                        </div>  
-                      :
-                        <div className="mt-7">
-                          <Select
-                            name="dateFormatId"
-                            label="Tarih Formatı"
-                            placeholder="Tarih Formatı"
-                            required
-                            color="blue"
-                            onChange={(e) => handleChange({target:{id:1,name:"dateFormatId", value:e.id}})}
-                            options={dateFormats}/>
-                        </div>
-                      }
-                    </div>
-                  </div>
                 }
                 </div>
                 <div className="mt-4">
@@ -375,7 +372,7 @@ export function CreateQuestions() {
             ) : (
               <>
                 {
-                  questions && questions.map(({ id,text,answerType,options,inputFormatId,inputFormatRule,isMandatory }, index) => (
+                  questions && questions.map((question, index) => (
                     <div key={crypto.randomUUID()} className="mx-auto my-20 flex max-w-screen-lg flex-col gap-8">
                       <Card>
                         <CardHeader
@@ -394,7 +391,7 @@ export function CreateQuestions() {
                                 placeholder="Soru Giriniz"
                                 icon={<i className="fa-solid fa-clipboard-question"/>}
                                 disabled={true}
-                                defaultValue = {text}/>
+                                defaultValue = {question.text}/>
                                 {errors.title &&
                                   <Typography
                                     variant="small"
@@ -411,21 +408,21 @@ export function CreateQuestions() {
                                 placeholder="Yanıt Tipi Seçiniz"
                                 isDisabled={true}
                                 color="blue"
-                                defaultValue={answerType && {label:answerType.label}}
+                                defaultValue={question.answerType && {label:question.answerType.label}}
                                 options={answerTypes}/>
                             </div>
-                            {(answerType.id == 1 || answerType.id == 2 || answerType.id == 4) ?
+                            {(question.answerTypeId == 1 || question.answerTypeId == 2 || question.answerTypeId == 4) ?
                               <div>
                                 <div>
-                                  {options && options.map((option) => {
+                                  {question.options && question.options.map((option) => {
                                     return (
                                       <div key={crypto.randomUUID()} className="mt-3 flex items-center">
-                                        {answerType.id == 1 && <i className="fa-solid fa-circle-dot pr-2"/>}
-                                        {answerType.id == 2 && <i className="fa-solid fa-square-check pr-2"/>}
-                                        {answerType.id == 4 && <i className="fa-solid fa-list pr-2"/>}
+                                        {question.answerTypeId == 1 && <i className="fa-solid fa-circle-dot pr-2"/>}
+                                        {question.answerTypeId == 2 && <i className="fa-solid fa-square-check pr-2"/>}
+                                        {question.answerTypeId == 4 && <i className="fa-solid fa-list pr-2"/>}
                                         <Input
                                           label="Seçenek"
-                                          name={"opt" + options.label}
+                                          name={"opt-" + option.label}
                                           defaultValue={option.label}
                                           disabled={true}
                                           color="blue"
@@ -442,21 +439,20 @@ export function CreateQuestions() {
                                   <Select
                                     name="inputFormat"
                                     placeholder="Giriş Tipi Seçiniz"
-                                    required
                                     color="blue"
                                     isDisabled={true}
-                                    defaultValue={{label:inputFormats.find(ift => ift.id === inputFormatId).label}}
+                                    defaultValue={{label:inputFormats.find(ift => ift.id === question.inputFormatId).label}}
                                     options={inputFormats}/>
                                 </div>
                                 <div>
-                                {(inputFormatId == 2 || inputFormatId == 3) ?
+                                {(question.inputFormatId == 2 || question.inputFormatId == 3) ?
                                   <div key={crypto.randomUUID()} className="mt-7 flex items-center space-x-6">
                                     <Input
                                       name={"minimum"}
                                       type="number"
                                       color="blue" 
                                       label={"Minimum"}
-                                      defaultValue={(JSON.parse(inputFormatRule)).min}
+                                      defaultValue={(JSON.parse(question.inputFormatRule)).min}
                                       size="lg"
                                       containerProps={{ className: "min-w-0" }}
                                       icon={<i className="fa-solid fa-square-minus"/>}
@@ -466,7 +462,7 @@ export function CreateQuestions() {
                                       type="number"
                                       color="blue" 
                                       label={"Maximum"}
-                                      defaultValue={(JSON.parse(inputFormatRule)).max}
+                                      defaultValue={(JSON.parse(question.inputFormatRule)).max}
                                       size="lg"
                                       containerProps={{ className: "min-w-0" }}
                                       icon={<i className="fa-solid fa-square-plus"/>}
@@ -478,7 +474,7 @@ export function CreateQuestions() {
                                       name="dateFormat"
                                       placeholder="Tarih Formatı"
                                       color="blue"
-                                      defaultValue={{label:dateFormats.find(dtf => dtf.id === parseInt(inputFormatRule)).label}}
+                                      defaultValue={{label:dateFormats.find(dtf => dtf.id === parseInt(question.inputFormatRule)).label}}
                                       options={dateFormats}
                                       isDisabled={true}/>
                                   </div>
@@ -492,16 +488,16 @@ export function CreateQuestions() {
                                 color="blue" 
                                 label= "Zorunlu Seçim"
                                 disabled={true}
-                                defaultChecked = {isMandatory}/>
+                                defaultChecked = {question.isMandatory}/>
                             </div>
                             <div className="flex md:flex md:flex-grow flex-row justify-end space-x-5">
                               <IconButton 
-                                onClick={(e) => editQuestion(id)}
+                                onClick={(e) => editQuestion(question)}
                                 color="blue">
                                   <i className="fa-solid fa-pen-to-square" />
                               </IconButton>
                               <IconButton 
-                                onClick={(e) => deleteQuestion(id)} 
+                                onClick={(e) => deleteQuestion(question.id)} 
                                 color="red">
                                   <i className="fa fa-trash" />
                               </IconButton>

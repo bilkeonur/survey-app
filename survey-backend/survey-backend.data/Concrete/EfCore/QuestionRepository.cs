@@ -21,7 +21,7 @@ namespace survey_backend.data.Concrete.EfCore
                 .Where(x => x.SurveyId == id)
                 .Select(q => new Question {
                     Id = q.Id,
-                    AnswerType = q.AnswerType,
+                    AnswerTypeId = q.AnswerTypeId,
                     IsMandatory = q.IsMandatory,
                     InputFormatId = q.InputFormatId,
                     InputFormatRule = q.InputFormatRule,

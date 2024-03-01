@@ -12,7 +12,7 @@ using survey_backend.data.Concrete.EfCore;
 namespace survey_backend.data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240228083454_InitialCreate")]
+    [Migration("20240301005806_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -231,6 +231,9 @@ namespace survey_backend.data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("QuestionId")
                         .HasColumnType("int");
 
@@ -248,46 +251,6 @@ namespace survey_backend.data.Migrations
                     b.HasIndex("SurveyId");
 
                     b.ToTable("Answers");
-                });
-
-            modelBuilder.Entity("survey_backend.entity.AnswerType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Label")
-                        .IsRequired()
-                        .HasMaxLength(80)
-                        .HasColumnType("nvarchar(80)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AnswerTypes");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Label = "Çoktan Tekli Seçmeli"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Label = "Çoktan Çoklu Seçmeli"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Label = "Yazarak Yanıt Verilen"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Label = "Listeden Tek Seçilen"
-                        });
                 });
 
             modelBuilder.Entity("survey_backend.entity.Option", b =>
@@ -454,8 +417,6 @@ namespace survey_backend.data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AnswerTypeId");
-
                     b.HasIndex("SurveyId");
 
                     b.ToTable("Questions");
@@ -516,7 +477,7 @@ namespace survey_backend.data.Migrations
                             Id = 6,
                             AnswerTypeId = 3,
                             InputFormatId = 3,
-                            InputFormatRule = "{\"max\":200}",
+                            InputFormatRule = "{\"min\":10,\"max\":200}",
                             IsMandatory = false,
                             SurveyId = 2,
                             Text = "Bize İletmek İstediğiniz Mesaj"
@@ -526,7 +487,7 @@ namespace survey_backend.data.Migrations
                             Id = 7,
                             AnswerTypeId = 3,
                             InputFormatId = 4,
-                            InputFormatRule = "{\"pattern\":\"gg\\aa\\yyyy\"}",
+                            InputFormatRule = "1",
                             IsMandatory = true,
                             SurveyId = 2,
                             Text = "Doğum Tarihi"
@@ -678,19 +639,11 @@ namespace survey_backend.data.Migrations
 
             modelBuilder.Entity("survey_backend.entity.Question", b =>
                 {
-                    b.HasOne("survey_backend.entity.AnswerType", "AnswerType")
-                        .WithMany()
-                        .HasForeignKey("AnswerTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("survey_backend.entity.Survey", "Survey")
                         .WithMany()
                         .HasForeignKey("SurveyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("AnswerType");
 
                     b.Navigation("Survey");
                 });

@@ -14,7 +14,6 @@ namespace survey_backend.webapi.Controllers
         private readonly ILogger<SurveyController> _logger;
         private readonly IMapper _mapper;
         private IAnswerService _answerService;
-        private IAnswerTypeService _answerTypeService;
         private IOrganizationService _organizationService;
         private ISurveyService _surveyService;
         private IQuestionService _questionService;
@@ -24,7 +23,6 @@ namespace survey_backend.webapi.Controllers
             ILogger<SurveyController> logger, 
             IMapper mapper,
             IAnswerService answerService,
-            IAnswerTypeService answerTypeService,
             IOrganizationService organizationService,
             ISurveyService surveyService,
             IQuestionService questionService,
@@ -33,7 +31,6 @@ namespace survey_backend.webapi.Controllers
             _logger = logger;
             _mapper = mapper;
             _answerService = answerService;
-            _answerTypeService = answerTypeService;
             _organizationService = organizationService;
             _surveyService = surveyService;
             _questionService = questionService;
@@ -63,58 +60,18 @@ namespace survey_backend.webapi.Controllers
             return Ok();
         }
 
-        [HttpGet("answer/statics")]
-        public async Task<IActionResult> GetStatics()
+        [HttpGet("statics/getbydaterange/{id}"), Authorize]
+        public async Task<IActionResult> GetStatisticsByDateRange(int id)
         {
-            var statics = await _answerService.CalculateStatics();
-            return Ok();
+            var statics = await _answerService.GetStatisticsByDateRange(id);
+            return Ok(statics);
         }
 
-        [HttpGet("answertypes/get")]
-        public async Task<IActionResult> GetAnswerTypes()
+        [HttpGet("statics/getbyanswers/{id}")]
+        public async Task<IActionResult> GetStatisticsByAnswers(int id)
         {
-            var answerTypes = await _answerTypeService.GetAll();
-            return Ok(answerTypes);
-        }
-
-        [HttpGet("answertypes/get{id}")]
-        public async Task<IActionResult> GetAnswerType(int id)
-        {
-            var answerType = await _answerTypeService.GetById(id);
-            
-            if(answerType == null) return NotFound();
-            else return Ok(answerType);
-        }
-
-        [HttpPost("answertypes/create"), Authorize]
-        public async Task<IActionResult> CreateAnswerType(AnswerType entity)
-        {
-            await _answerTypeService.CreateAsync(entity);
-            return CreatedAtAction(nameof(GetAnswerType), new {id=entity.Id},entity);
-        }
-
-        [HttpPut("answertypes/update/{id}"), Authorize]
-        public async Task<IActionResult> UpdateAnswerType(int id, AnswerType entity)
-        {
-            if (id != entity.Id) { return BadRequest();}
-
-            var answerType = await _answerTypeService.GetById(id);
-
-            if(answerType == null) { return NotFound(); }
-
-            await _answerTypeService.UpdateAsync(answerType,entity);
-
-            return NoContent();
-        }
-
-        [HttpDelete("answertypes/delete/{id}"), Authorize]
-        public async Task<IActionResult> DeleteAnswerType(int id)
-        {
-            var answerType = await _answerTypeService.GetById(id);
-
-            if(answerType == null){ return NotFound();}
-            await _answerTypeService.DeleteAsync(answerType);
-            return NoContent();
+            var statics = await _answerService.GetStatisticsByAnswers(id);
+            return Ok(statics);
         }
 
         [HttpGet("organizations/get"), Authorize]
@@ -257,20 +214,6 @@ namespace survey_backend.webapi.Controllers
             if(question == null){ return NotFound();}
             await _questionService.DeleteAsync(question);
             return NoContent();
-        }
-
-        [HttpGet("optipons/get{id}"), Authorize]
-        public async Task<IActionResult> GetOptions(int id)
-        {
-            var options = await _optionService.GetById(id);
-            return Ok(options);
-        }
-
-        [HttpPost("options/create"), Authorize]
-        public async Task<IActionResult> CreateOptions(List<Option> entities)
-        {
-            await _optionService.CreateRange(entities);
-            return Ok();
         }
     }
 }

@@ -51,6 +51,7 @@ export function CreateOrganization() {
     })
     .then((res) => { 
       if(res.status == 201) { navigate('/manage/organizationmanagement')}
+      else if(res.status==401) {navigate('/auth/signin')}
       else {alert("Hata Oluştu")}
       return res.json()
     })
@@ -67,7 +68,7 @@ export function CreateOrganization() {
       },
       body: JSON.stringify({id: id, label: formData.companyName})
     })
-    .then((res) => { navigate('/manage/organizationmanagement')})
+    .then((res) => {if(res.status==401) {navigate('/auth/signin')} else navigate('/manage/organizationmanagement')})
     .catch(error => {alert("Hata Oluştu : " + error.inner)});
   };
 

@@ -1,11 +1,11 @@
 const Permissions = {
-  CREATE_ANSWER_TYPE: "CreateAnswerType",
-  ANSWER_TYPE_MANAGEMENT: "AnswerTypeManagement",
   CREATE_ORGANIZATION: "CreateOrganization",
   ORGANIZATION_MANAGEMENT: "OrganizationManagement",
   CREATE_SURVEY: "CreateSurvey",
   SURVEY_MANAGEMENT: "SurveyManagement",
   CREATE_QUESTIONS: "CreateQuestions",
+  SURVEY_STATICS_BY_DATE: "SurveyStaticsByDate",
+  SURVEY_STATICS_BY_ANSWERS: "SurveyStaticsByAnswers"
 };
 
 export default Permissions;

@@ -14,7 +14,6 @@ namespace survey_backend.data.Concrete.EfCore
         }
 
         public DbSet<Answer> Answers { get;set; }
-        public DbSet<AnswerType> AnswerTypes { get;set; }
         public DbSet<Organization> Organizations { get;set; }
         public DbSet<Question> Questions { get;set; }
         public DbSet<Survey> Surveys { get;set; }
@@ -30,7 +29,6 @@ namespace survey_backend.data.Concrete.EfCore
                 .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.ApplyConfiguration(new AnswerConfigurations());
-            modelBuilder.ApplyConfiguration(new AnswerTypeConfigurations());
             modelBuilder.ApplyConfiguration(new OrganizationConfigurations());
             modelBuilder.ApplyConfiguration(new QuestionConfigurations());
             modelBuilder.ApplyConfiguration(new SurveyConfigurations());

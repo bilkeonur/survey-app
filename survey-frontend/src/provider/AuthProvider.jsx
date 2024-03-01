@@ -13,13 +13,14 @@ export const AuthProvider = ({ children }) => {
   const login = (token) => {
     setLoginData({ token: token, 
       permissions: [
-        "CreateAnswerType",
-        "AnswerTypeManagement", 
         "CreateOrganization", 
         "OrganizationManagement",
         "CreateSurvey",
         "SurveyManagement",
-        "CreateQuestions"]});
+        "CreateQuestions",
+        "SurveyStaticsByDate",
+        "SurveyStaticsByAnswers"
+    ]});
     localStorage.setItem('accessToken', token.accessToken);
     localStorage.setItem('refreshToken', token.refreshToken);
     navigate(redirectPath, { replace: true });

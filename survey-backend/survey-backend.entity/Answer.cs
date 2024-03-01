@@ -13,5 +13,7 @@ namespace survey_backend.entity
         public Question? Question { get; set; }
         
         public string SelOptions { get; set; } = string.Empty;
+
+        public DateTime CreatedDate {get; set; } = DateTime.Today;
     }
 }

@@ -14,19 +14,6 @@ namespace survey_backend.data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "AnswerTypes",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Label = table.Column<string>(type: "nvarchar(80)", maxLength: 80, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AnswerTypes", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
                 {
@@ -224,12 +211,6 @@ namespace survey_backend.data.Migrations
                 {
                     table.PrimaryKey("PK_Questions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Questions_AnswerTypes_AnswerTypeId",
-                        column: x => x.AnswerTypeId,
-                        principalTable: "AnswerTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_Questions_Surveys_SurveyId",
                         column: x => x.SurveyId,
                         principalTable: "Surveys",
@@ -245,7 +226,8 @@ namespace survey_backend.data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SurveyId = table.Column<int>(type: "int", nullable: false),
                     QuestionId = table.Column<int>(type: "int", nullable: false),
-                    SelOptions = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    SelOptions = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -284,17 +266,6 @@ namespace survey_backend.data.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "AnswerTypes",
-                columns: new[] { "Id", "Label" },
-                values: new object[,]
-                {
-                    { 1, "Çoktan Tekli Seçmeli" },
-                    { 2, "Çoktan Çoklu Seçmeli" },
-                    { 3, "Yazarak Yanıt Verilen" },
-                    { 4, "Listeden Tek Seçilen" }
-                });
-
-            migrationBuilder.InsertData(
                 table: "Organizations",
                 columns: new[] { "Id", "Label" },
                 values: new object[,]
@@ -322,8 +293,8 @@ namespace survey_backend.data.Migrations
                     { 3, 2, 1, "", true, 1, "Sevdiğiniz Film Türleri" },
                     { 4, 2, 1, "", false, 1, "Sahip Olduğunuz Hayvanlar" },
                     { 5, 3, 2, "{\"min\":18,\"max\":65}", true, 2, "Yaşınız" },
-                    { 6, 3, 3, "{\"max\":200}", false, 2, "Bize İletmek İstediğiniz Mesaj" },
-                    { 7, 3, 4, "{\"pattern\":\"gg\\aa\\yyyy\"}", true, 2, "Doğum Tarihi" },
+                    { 6, 3, 3, "{\"min\":10,\"max\":200}", false, 2, "Bize İletmek İstediğiniz Mesaj" },
+                    { 7, 3, 4, "1", true, 2, "Doğum Tarihi" },
                     { 8, 4, 1, "", true, 2, "Yaşadığınız Şehir" }
                 });
 
@@ -402,11 +373,6 @@ namespace survey_backend.data.Migrations
                 column: "QuestionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Questions_AnswerTypeId",
-                table: "Questions",
-                column: "AnswerTypeId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Questions_SurveyId",
                 table: "Questions",
                 column: "SurveyId");
@@ -449,9 +415,6 @@ namespace survey_backend.data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Questions");
-
-            migrationBuilder.DropTable(
-                name: "AnswerTypes");
 
             migrationBuilder.DropTable(
                 name: "Surveys");

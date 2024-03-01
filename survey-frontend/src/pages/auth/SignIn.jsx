@@ -8,6 +8,7 @@ export function SignIn() {
   
   const { login } = useAuth();
   const [formData, setFormData] = useState({email: "", password: ""});
+  const [response, setResponse] = useState("");
   const [errors, setErrors] = useState({});
 
   const validationSchema = object({
@@ -31,12 +32,10 @@ export function SignIn() {
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({email: formData.email, password: formData.password})
     })
-    .then((res) => { return res.json() })
-    .then((data) => {
-      if(data.accessToken != undefined) {
-        login(data);
-      }
-    })
+    .then((res) => { 
+      if(res.status == 200) { return res.json() }
+      else if(res.status == 401) {setResponse("Yetkisiz Giriş"); return;} })
+    .then((data) => { if(data.accessToken != undefined) { login(data) } })
     .catch(error => {console.log(error)});
   };
 
@@ -64,6 +63,7 @@ export function SignIn() {
           <div className="text-center">
             <Typography variant="h2" className="font-bold mb-4">Giriş Yap</Typography>
             <Typography variant="paragraph" color="blue-gray" className="text-lg font-normal">Giriş Yapmak İçin Email Adresinizi ve Şifrenizi Giriniz</Typography>
+            <Typography variant="paragraph" color="red" className="text-lg font-normal">{response}</Typography>
           </div>
           <form onSubmit={handleSubmit} className="mt-8 mb-2 mx-auto w-80 max-w-screen-lg lg:w-1/2">
             <div className="mb-1 flex flex-col gap-6">
@@ -118,7 +118,7 @@ export function SignIn() {
                 <a href="/auth/signup">Kayıt Ol</a>
               </Typography>
               <Typography variant="small" className="font-medium text-gray-900 underline">
-                <a href="/dashboard/home">Ana Sayfa</a>
+                <a href="/dashboard/survey">Anketler</a>
               </Typography>
             </div>
           </form>

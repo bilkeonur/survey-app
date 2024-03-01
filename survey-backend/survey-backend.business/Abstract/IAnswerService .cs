@@ -1,3 +1,4 @@
+using survey_backend.data.DTO;
 using survey_backend.entity;
 
 namespace survey_backend.business.Abstract
@@ -10,6 +11,7 @@ namespace survey_backend.business.Abstract
         Task<Answer> GetById(int id);
         Task DeleteAsync(Answer entity);        
         Task UpdateAsync(Answer entityToUpdate, Answer entity);
-        Task<object> CalculateStatics();
+        Task<List<StaticsByDateDTO>> GetStatisticsByDateRange(int surveyId);
+        Task<List<StaticsByAnswersDTO>> GetStatisticsByAnswers(int surveyId);
     }
 }
